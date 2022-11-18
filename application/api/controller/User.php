@@ -2,9 +2,15 @@
 
 namespace app\api\controller;
 
+use app\admin\model\auction\Goods;
+use app\admin\model\auction\Order;
 use app\common\controller\Api;
 use app\common\library\Ems;
 use app\common\library\Sms;
+use app\common\model\GoodsPriceLog;
+use app\common\model\Message;
+use app\common\model\RechargeOrder;
+use app\common\model\ScoreLog;
 use BaconQrCode\Common\ErrorCorrectionLevel;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
@@ -12,6 +18,8 @@ use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use fast\Random;
 use think\Config;
+use think\Db;
+use think\Exception;
 use think\Validate;
 
 /**
@@ -160,6 +168,17 @@ class User extends Api
         $this->success(__('Logout successful'));
     }
 
+
+    /**
+     * 用户信息
+     */
+    public function user_info()
+    {
+        $id = $this->auth->id;
+        $userInfo = \app\common\model\User::field('id,username,nickname,company_name,cn_name,en_name,email,mobile,avatar,level,birthday,bio,score')->find($id);
+        $this->success('success', $userInfo);
+    }
+
     /**
      * 修改会员个人信息
      *
@@ -172,10 +191,15 @@ class User extends Api
     public function profile()
     {
         $user = $this->auth->getUser();
-        $username = $this->request->post('username');
-        $nickname = $this->request->post('nickname');
-        $bio = $this->request->post('bio');
-        $avatar = $this->request->post('avatar', '', 'trim,strip_tags,htmlspecialchars');
+        $username = $this->request->param('username');
+        $email = $this->request->param('email', '');
+        $mobile = $this->request->param('mobile', '');
+        $birthday = $this->request->param('birthday', '');
+        $bio = $this->request->param('bio', '');
+        $cnName = $this->request->param('cn_name', '');
+        $enName = $this->request->param('en_name', '');
+        $companyName = $this->request->param('company_name', '');
+        $avatar = $this->request->param('avatar', '', 'trim,strip_tags,htmlspecialchars');
         if ($username) {
             $exists = \app\common\model\User::where('username', $username)->where('id', '<>', $this->auth->id)->find();
             if ($exists) {
@@ -183,17 +207,29 @@ class User extends Api
             }
             $user->username = $username;
         }
-        if ($nickname) {
-            $exists = \app\common\model\User::where('nickname', $nickname)->where('id', '<>', $this->auth->id)->find();
+        if($email){
+            $exists = \app\common\model\User::where('email', $email)->where('id', '<>', $this->auth->id)->find();
             if ($exists) {
-                $this->error(__('Nickname already exists'));
+                $this->error(__('Email already exists'));
             }
-            $user->nickname = $nickname;
+            $user->email = $email;
         }
-        $user->bio = $bio;
-        $user->avatar = $avatar;
+//        if ($nickname) {
+//            $exists = \app\common\model\User::where('nickname', $nickname)->where('id', '<>', $this->auth->id)->find();
+//            if ($exists) {
+//                $this->error(__('Nickname already exists'));
+//            }
+//            $user->nickname = $nickname;
+//        }
+        if($mobile) $user->mobile = $mobile;
+        if($birthday) $user->birthday = $birthday;
+        if($cnName) $user->cn_name = $cnName;
+        if($enName) $user->en_name = $enName;
+        if($companyName) $user->company_name = $companyName;
+        if($avatar) $user->avatar = $avatar;
+        if($bio) $user->bio = $bio;
         $user->save();
-        $this->success();
+        $this->success('success');
     }
 
     /**
@@ -421,7 +457,6 @@ class User extends Api
      * 个人推广码
      * @ApiMethod (GET)
      */
-
     public function promotion_code()
     {
         $user = $this->auth->getUser();
@@ -445,6 +480,249 @@ class User extends Api
             $user->save(['qr_code' => $filename]);
             $user['qr_code'] = $filename;
         }
-        $this->success('', ['qr_code' => cdnurl($user['qr_code'], true), 'invite_code' => $user['invite_code']]);
+        $this->success('success', ['qr_code' => cdnurl($user['qr_code'], true), 'invite_code' => $user['invite_code']]);
     }
+
+    /**
+     * 在线充值
+     * @ApiMethod (POST)
+     */
+    public function recharge()
+    {
+        $user = $this->auth->getUser();
+        $money = $this->request->param('money');
+        if(!$money || !is_numeric($money) || $money <= 0) $this->error(__('Incorrect recharge amount'));
+        try{
+            $orderNo = get_order_no();
+            \Stripe\Stripe::setApiKey(config('stripeTest.privateKey'));
+            $intent = \Stripe\PaymentIntent::create([
+                'amount' => $money * 100, //充值金额
+                'currency' => 'hkd', //币种
+                'receipt_email' => $user['email'],
+                'metadata' => [
+                    'order_no' => $orderNo
+                ],
+            ]);
+            $data = [
+                'order_no' => $orderNo,
+                'user_id'  => $this->auth->id,
+                'money'  => $money
+            ];
+            $result = RechargeOrder::create($data);
+            if(!$result){
+                $this->error(__('Operation failed'));
+            }
+            $this->success('success', ['client_secret' => $intent->client_secret]);//确认支付客户密钥
+        }catch (Exception $exception){
+            $this->error($exception->getMessage());
+        }
+    }
+
+    /**
+     * @ApiMethod (GET)
+     * 积分明细
+     * @throws \think\exception\DbException
+     */
+    public function score_log()
+    {
+        $type = $this->request->param('type', 0);
+        $where['user_id'] = ['=', $this->auth->id];
+        if($type){
+            if(!in_array($type, [1,2])) $this->error(__('Invalid parameters'));
+            $where['score'] = [$type == 1 ? '>' : '<', 0];
+        }
+
+        $result = ScoreLog::where($where)->paginate(10)->toArray();
+        if(!$result){
+            $this->error(__('Operation failed'));
+        }
+        $this->success('success', $result);
+    }
+
+    /**
+     * 用户系统消息
+     * @throws \think\exception\DbException
+     */
+    public function message()
+    {
+        $result = Message::field('content,status,createtime')->where('user_id', $this->auth->id)->paginate(10)->toArray();
+        if(!$result){
+            $this->error(__('Operation failed'));
+        }
+        $this->success(__('Get data success'), $result);
+    }
+
+    /**
+     * 设置已读
+     */
+    public function set_read()
+    {
+        $param = $this->request->param();
+        if(!isset($param['ids']) || !is_array($param['ids'])) $this->error(__('Invalid parameters'));
+
+        $result = Message::whereIn('id', $param['ids'])->update(['status' => 2, 'updatetime' => time()]);
+        if($result === false){
+            $this->error(__('Operation failed'));
+        }
+        $this->success('success');
+    }
+
+    /**
+     * 删除消息(软删除)
+     */
+    public function del_msg()
+    {
+        $param = $this->request->param();
+        if(!isset($param['ids']) || !is_array($param['ids'])) $this->error(__('Invalid parameters'));
+
+        $result = Message::whereIn('id', $param['ids'])->update(['deletetime' => time()]);
+        if($result === false){
+            $this->error(__('Operation failed'));
+        }
+        $this->success('success');
+    }
+
+    /**
+     * 我的订单
+     * @throws \think\exception\DbException
+     */
+    public function get_owner_order()
+    {
+        $list = Order::alias('order')->field('id,order_no,total_score,address,express_no,status,createtime')->with(['goods' => function($query){
+            $query->alias('goods')->withField('title,is_order');
+        }])->where('order.user_id', $this->auth->id)->order('order.id', 'desc')->paginate(10)->toArray();
+        if(!is_array($list)){
+            $this->error(__('Operation failed'));
+        }
+        $this->success(__('Get data success'), $list);
+    }
+
+    /**
+     * 订单详情
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function order_detail()
+    {
+        $id = $this->request->param('id', 0);
+        if(!$id) $this->error(__('Invalid parameters'));
+        $detail = Order::alias('order')->field('id,user_id,order_no,total_score,receive_name,phone,address,express_no,status,createtime')->with(['goods' => function($query){
+            $query->alias('goods')->withField('title,is_order');
+        }])->where('order.id', $id)->find();
+        if(!$detail) $this->error(__('Order does not exist'));
+        if($detail->user_id != $this->auth->id) $this->error(__('You can only operate your own order'));
+        $this->success(__('Get data success'), $detail);
+    }
+
+    /**
+     * 设置订单收货信息
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function set_order_address()
+    {
+        $id = $this->request->param('id', 0);
+        $receiveName = $this->request->param('receive_name', '');
+        $phone = $this->request->param('phone', '');
+        $address = $this->request->param('address', '');
+        if(!$receiveName) $this->error(__('The receive_name cannot be blank'));
+        if(!$phone) $this->error(__('The receive_phone cannot be blank'));
+        if(!$address) $this->error(__('The address cannot be blank'));
+        if(!$id) $this->error(__('Invalid parameters'));
+        $order = Order::find($id);
+        if(!$order) $this->error(__('Order does not exist'));
+        if($order->status == 2) $this->error(__('The order has been shipped and the address cannot be modified'));
+        if($order->user_id != $this->auth->id) $this->error(__('You can only operate your own order'));
+        $order->receive_name = $receiveName;
+        $order->phone = $phone;
+        $order->address = $address;
+        $result = $order->isUpdate(true)->save();
+        if($result === false) $this->error(__('Operation failed'));
+        $this->success('success');
+    }
+    
+
+    /**
+     * 我的发布商品
+     * @throws \think\exception\DbException
+     */
+    public function get_owner_goods()
+    {
+        $list = Goods::field('id,title,start_price,now_price,begin_time,end_time,content,images,is_order,status,createtime')->with(['category' => function($query){
+            $query->withField('name');
+        }])->where('user_id', $this->auth->id)->order('sort', 'desc')->paginate(10)->toArray();
+        if(!empty($list)){
+            foreach ($list['data'] as &$val){
+                $images = explode(',', $val['images']);
+                foreach ($images as &$value){
+                    $value = cdnurl($value, true);
+                }
+                $val['images'] = $images;
+            }
+        }
+        if(!is_array($list)){
+            $this->error(__('Operation failed'));
+        }
+        $this->success(__('Get data success'), $list);
+    }
+
+    /**
+     * 取消拍卖/作废
+     */
+    public function cancel()
+    {
+        $id = $this->request->param('id', 0);
+        if(!$id) $this->error(__('Invalid parameters'));
+        Db::startTrans();
+        try{
+            $goods = Goods::find($id);
+            if(!$goods) $this->error(__('Goods does not exist'));
+            if($goods->user_id != $this->auth->id) $this->error(__('You can only operate your own goods'));
+            if($goods->is_order != 0) $this->error(__('Operation is not allowed in the commodity status'));
+            $goods->status = 0;
+            //如果有用户竞价解冻相应冻结积分
+            $maxUser = GoodsPriceLog::where('goods_id', $goods->id)->order('price', 'desc')->find();
+            if($maxUser)  \app\common\model\User::lockScore(-$maxUser->price, $maxUser->user_id);
+            $result = $goods->isUpdate(true)->save();
+            if($result === false){
+                Db::rollback();
+                $this->error(__('Cancel failed'));
+            }
+            Db::commit();
+            $this->success('success');
+        }catch (Exception $exception){
+            Db::rollback();
+            $this->error($exception->getMessage());
+        }
+    }
+
+
+    /**
+     * 发货
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function deliver()
+    {
+        $id = $this->request->param('id', 0);
+        $status = (int)$this->request->param('status', 1);
+        $expressNo = $this->request->param('express_no', '');
+        if(!$id) $this->error(__('Invalid parameters'));
+        $goods = Goods::find($id);
+        if($goods->user_id != $this->auth->id) $this->error(__('You can only operate your own goods'));
+        if($goods->status != 0) $this->error(__('Operation is not allowed in the commodity status'));
+        $order = Order::where('goods_id', $goods->id)->find();
+        if(!$order) $this->error(__('Order does not exist'));
+        $order->status = $status;
+        $order->express_no = $expressNo;
+        $result = $order->isUpdate(true)->save();
+        if($result === false){
+            $this->error(__('Operation failed'));
+        }
+        $this->success('success');
+    }
+
 }

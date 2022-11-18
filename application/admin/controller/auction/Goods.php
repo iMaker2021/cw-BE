@@ -2,6 +2,7 @@
 
 namespace app\admin\controller\auction;
 
+use app\admin\model\auction\GoodsPriceLog;
 use app\common\controller\Backend;
 use think\Db;
 use think\Exception;
@@ -116,6 +117,45 @@ class Goods extends Backend
             $this->error(__('No rows were inserted'));
         }
         $this->success();
+    }
+
+    /**
+     * 出價記錄
+     * @return string|\think\response\Json
+     * @throws Exception
+     */
+    public function price_log()
+    {
+        $id = $this->request->param('id');
+        if($id){
+            session('goods_id', $id);
+        }
+        if(!session('goods_id')) $this->error(__('Parameter %s can not be empty', 'goodsId'));
+        //设置过滤方法
+        $this->request->filter(['strip_tags', 'trim']);
+        if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
+            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+            $list = model(GoodsPriceLog::class)
+                ->with(['goods', 'user'])
+                ->where($where)
+                ->where('goods_id', session('goods_id'))
+                ->order($sort, $order)
+                ->paginate($limit);
+
+            foreach ($list as $row) {
+                $row->getRelation('goods')->visible(['title']);
+                $row->getRelation('user')->visible(['username']);
+
+            }
+
+            $result = array("total" => $list->total(), "rows" => $list->items());
+            return json($result);
+        }
+        return $this->view->fetch();
     }
 
 }

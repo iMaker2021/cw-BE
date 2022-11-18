@@ -31,9 +31,9 @@
         "ext-pdo": "*",
         "ext-bcmath": "*",
         "txthinking/mailer": "^2.0",
-        "jpush/jpush": "^3.6",
         "endroid/qr-code": "^4.3",
-        "stripe/stripe-php": "^9.8"
+        "stripe/stripe-php": "^9.8",
+        "alibabacloud/sdk": "^1.8"
     },
     "config": {
         "preferred-install": "dist",

@@ -23,15 +23,42 @@ class Goods extends Model
     protected $updateTime = 'updatetime';
     protected $deleteTime = 'deletetime';
 
+    protected $dateFormat = 'Y-m-d H:i:s';
+
+    private $isOrderText = ['进行中', '已成交', '流拍'];
+
     // 追加属性
     protected $append = [
         'begin_time_text',
-        'end_time_text'
+        'end_time_text',
+        'is_order_text',
+        'status_text'
     ];
 
 
-    
+    /**
+     * 订单状态转换
+     * @param $value
+     * @param $data
+     * @return mixed
+     */
+    public function getIsOrderTextAttr($value, $data)
+    {
+        $value = $value ? $value : (isset($data['is_order']) ? $data['is_order'] : '');
+        return $value === '' ? '' : (in_array($value, [0, 1, 2]) ? $this->isOrderText[$value] : '');
+    }
 
+    /**
+     * 商品状态转换
+     * @param $value
+     * @param $data
+     * @return string
+     */
+    public function getStatusTextAttr($value, $data)
+    {
+        $value = $value ? $value : (isset($data['status']) ? $data['status'] : '');
+        return $value === '' ? '' : ((int)$value ? '正常' : '已作废');
+    }
 
 
     public function getBeginTimeTextAttr($value, $data)

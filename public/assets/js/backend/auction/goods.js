@@ -21,7 +21,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
-                sortName: 'id',
+                sortName: 'sort',
                 fixedColumns: true,
                 fixedRightNumber: 1,
                 columns: [
@@ -36,12 +36,23 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'begin_time', title: __('Begin_time'), operate:'RANGE', sortable: true, addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
                         {field: 'end_time', title: __('End_time'), operate:'RANGE', sortable: true, addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
                         {field: 'category_id', title: __('Category_id')},
+                        {field: 'sort', title: __('Sort'), sortable: true},
+                        {field: 'is_order_text', title: __('Auction_status')},
                         {field: 'status', title: __('Status'), operate: false, formatter: Table.api.formatter.status, searchList: {1: __('On'), 0: __('Off')}},
                         {field: 'createtime', title: __('Createtime'), operate:'RANGE', sortable: true, addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
                         {field: 'updatetime', title: __('Updatetime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
                         {field: 'category.name', title: __('Category.name'), operate: 'LIKE'},
                         {field: 'category.image', title: __('Category.image'), operate: false, events: Table.api.events.image, formatter: Table.api.formatter.image},
-                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate,buttons: [
+                                {
+                                    name: 'detail',
+                                    title: '出价记录',
+                                    text: '出价记录',
+                                    icon: 'fa fa-list',
+                                    classname: 'btn btn-primary btn-xs btn-dialog',
+                                    url: 'auction/goods/price_log/id/{id}',
+                                }
+                            ], formatter: Table.api.formatter.operate}
                     ]
                 ]
             });
@@ -110,6 +121,36 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Table.api.bindevent(table);
         },
 
+        price_log: function () {
+            // 初始化表格参数配置
+            Table.api.init({
+                extend: {
+                    'dragsort_url': ''
+                }
+            });
+
+            var table = $("#table");
+
+            // 初始化表格
+            table.bootstrapTable({
+                url: 'auction/goods/price_log' + location.search,
+                pk: 'id',
+                sortName: 'id',
+                columns: [
+                    [
+                        {checkbox: true},
+                        {field: 'goods_id', title: __('Goods_id')},
+                        {field: 'goods.title', title: __('Title'), align: 'left', operate: 'LIKE'},
+                        {field: 'user.username', title: __('Username'), operate: 'LIKE'},
+                        {field: 'price', title: __('Price'), sortable:true, operate: 'RANGE'},
+                        {field: 'createtime', title: __('Createtime'), operate:'RANGE', sortable: true, addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                    ]
+                ]
+            });
+
+            // 为表格绑定事件
+            Table.api.bindevent(table);
+        },
         add: function () {
             Controller.api.bindevent();
         },

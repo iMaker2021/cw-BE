@@ -27,4 +27,5 @@ return [
     "Publishing successful" => '发布成功',
     "The end time cannot be less than the current time" => '结束时间不能小于当前时间',
     "The end time cannot be less than the begin time" => '结束时间不能小于开始时间',
+    "You are already the highest price" => '您已是最高价',
 ];

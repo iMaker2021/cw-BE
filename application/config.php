@@ -96,7 +96,7 @@ return [
     // 路由配置文件（支持配置多个）
     'route_config_file'      => ['route'],
     // 是否强制使用路由
-    'url_route_must'         => false,
+    'url_route_must'         => true,
     // 域名部署
     'url_domain_deploy'      => false,
     // 域名根，如thinkphp.cn
@@ -166,7 +166,9 @@ return [
         // 日志保存目录
         'path'  => LOG_PATH,
         // 日志记录级别
-        'level' => [],
+        'level' => ['error','notice'],//'info',
+        'max_files' => 20,
+        'file_size'     =>2097152,
     ],
     // +----------------------------------------------------------------------
     // | Trace设置 开启 app_trace 后 有效
@@ -304,14 +306,26 @@ return [
     //极光推送配置
     'JPush'             => [
         //极光key
-        'appKey'                => 'key',
+        'appKey'                => 'b81229a865bfdf4578705764',
         //密钥
-        'appSecret'             => 'secret',
+        'appSecret'             => '2183636f7353db7f206f51fd',
+    ],
+
+    //阿里云推送
+    'aliPush'             => [
+        'accessKeyId'                => 'b81229a865bfdf4578705764',
+        'accessKeySecret'             => '2183636f7353db7f206f51fd',
+        'appKey'             => '2183636f7353db7f206f51fd',
+        'regionId'             => '2183636f7353db7f206f51fd',
     ],
 
     //stripe条纹支付配置
+    'stripeTest'             => [
+        'publishableKey'        => 'pk_test_51M4gW5Dvd6sxQfTb3voI0n1E9nkYdBUpF3yJMunZPDHRMIc893gBN3gAqfVmxNvgNchh9Yp6D9WPS0hiPqkmVOO900afgeVLWc',
+        'privateKey'            => 'sk_test_51M4gW5Dvd6sxQfTbl5DK4iMeRjdA7Wfiq4ekWaDtbXZk2QpyE0J4hqwCjJJOCeMT47Pn3QULjd5i6CNwD8wQMeK600AKqjlpGg'
+    ],
     'stripe'             => [
-        'publishableKey'        => 'pk_test_51Lx3QcH63ppBMz2np3zV275vxX14LEEJYVGOzFxknTfjRwSVZeTsovFng7HZvMsM0scyPneFau3hKCaU1h6nN0fg00idAnxhgn',
-        'privateKey'            => 'sk_test_51Lx3QcH63ppBMz2nUvJkRJDIPvZNUq4HSVSaYfiGQsPKnQLcyqh7SjDZBxgwqDA1FAM3Yio2UeR1LJeYyN3d9Oaf00Nuis93M1'
+        'publishableKey'        => 'pk_test_51M4gW5Dvd6sxQfTb3voI0n1E9nkYdBUpF3yJMunZPDHRMIc893gBN3gAqfVmxNvgNchh9Yp6D9WPS0hiPqkmVOO900afgeVLWc',
+        'privateKey'            => 'sk_test_51M4gW5Dvd6sxQfTbl5DK4iMeRjdA7Wfiq4ekWaDtbXZk2QpyE0J4hqwCjJJOCeMT47Pn3QULjd5i6CNwD8wQMeK600AKqjlpGg'
     ],
 ];

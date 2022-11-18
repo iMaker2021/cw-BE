@@ -3,6 +3,7 @@
 namespace app\api\controller;
 
 use app\common\controller\Api;
+use app\common\model\TestData;
 use think\Response;
 
 /**
@@ -16,7 +17,7 @@ class Demo extends Api
     //如果接口已经设置无需登录,那也就无需鉴权了
     //
     // 无需登录的接口,*表示全部
-    protected $noNeedLogin = ['test', 'test1'];
+    protected $noNeedLogin = ['test', 'test1', 'test2'];
     // 无需鉴权的接口,*表示全部
     protected $noNeedRight = ['test2'];
 
@@ -76,7 +77,25 @@ class Demo extends Api
      */
     public function test1()
     {
-        $this->success('返回成功', ['action' => 'test1']);
+        $begin = time();
+        $nowNum = session('data_num') + 150000;
+        $data1 = [
+            'cate_id' => random_int(15, 18),
+            'title' => $nowNum.'万数据测试',
+            'content' => $nowNum.'万数据测试',
+            'description' => $nowNum.'万数据测试'
+        ];
+        for ($j=1; $j<=500;$j++){
+            $data[] = $data1;
+        }
+        for ($i=1;$i<=300;$i++){
+            model(TestData::class)->saveAll($data);
+        }
+        $end = time();
+        $s = bcsub($end,$begin);
+        session('data_num', $nowNum);
+        echo $nowNum;
+        $this->success('返回成功', ['action' => "用时{$s}秒"]);
     }
 
     /**
@@ -85,7 +104,10 @@ class Demo extends Api
      */
     public function test2()
     {
-        $this->success('返回成功', ['action' => 'test2']);
+        $begin = time();
+        $result = TestData::with(['category'])->whereLike('title', '%150万数据%')->paginate(500);//where('cate_id', 16)
+        $end = time();
+        $this->success('返回成功', ['use_time' => bcsub($end, $begin), 'data' => $result]);
     }
 
     /**

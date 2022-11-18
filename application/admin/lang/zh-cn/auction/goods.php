@@ -1,18 +1,21 @@
 <?php
 
 return [
-    'Title'                => '标题',
+    'Title'                => '商品标题',
     'Start_price'          => '起拍价',
     'Now_price'          => '现价',
+    'Price'          => '价格',
     'Begin_time'           => '开始时间',
     'End_time'             => '结束时间',
     'Category_id'          => '分类id',
+    'Goods_id'          => '商品id',
+    'Sort'          => '排序',
     'Content'              => '描述',
-    'Username'              => '发布人',
+    'Username'              => '用户名',
     'Images'               => '图片(多张逗号,分隔)',
     'Status'               => '状态',
-    'On'               => '上架',
-    'Off'               => '下架',
+    'On'               => '正常',
+    'Off'               => '已作废',
     'Set to on'               => '设为上架',
     'Set to off'               => '设为下架',
     'Createtime'           => '创建时间',
@@ -28,5 +31,6 @@ return [
     'Category.createtime'  => '创建时间',
     'Category.updatetime'  => '更新时间',
     'Category.weigh'       => '权重',
-    'Category.status'      => '状态'
+    'Category.status'      => '状态',
+    'Auction_status'      => '拍卖状态'
 ];

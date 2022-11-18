@@ -101,4 +101,5 @@ return [
     'This page will be re-directed in %s seconds'    => '页面将在 %s 秒后自动跳转',
     'Get data failed'                                => '数据请求失败',
     'Get data success'                               => '数据请求成功',
+    'Illegal operation'                               => '非法操作',
 ];

@@ -6,6 +6,7 @@ use app\common\controller\Api;
 use app\admin\model\Category;
 use app\admin\model\auction\Goods;
 use app\common\model\GoodsPriceLog;
+use app\common\model\Message;
 use think\Db;
 use think\Exception;
 
@@ -57,20 +58,20 @@ class Auction extends Api
         $minPrice = $this->request->get('min_price', 0);
         $maxPrice = $this->request->get('max_price', 0);
         $orderType = $this->request->get('order_type', 0);
-        $where[] = ['status', 'eq ', 1];
-        $where[] = ['end_time', 'gt', time()];
-        if($cateId) $where[] = ['category_id', 'eq', $cateId];
-        if($minPrice) $where[] = ['now_price', 'gt', $minPrice];
-        if($maxPrice) $where[] = ['now_price', 'lt', $maxPrice];
-        switch ($orderType){
+        $where['status'] = ['eq', 1];
+        $where['end_time'] = ['gt', time()];
+        if($cateId) $where['category_id'] = ['eq', $cateId];
+        if($minPrice) $where['now_price'] = ['gt', $minPrice];
+        if($maxPrice) $where['now_price'] = ['lt', $maxPrice];
+        switch ((int)$orderType){
             case 0:
-                $order = 'id desc';
+                $order = 'sort desc';
                 break;
             case 1:
                 $order = 'end_time asc';
                 break;
             case 2:
-                $order = 'id desc';
+                $order = 'end_time desc';
                 break;
             case 3:
                 $order = 'now_price asc';
@@ -79,9 +80,9 @@ class Auction extends Api
                 $order = 'now_price desc';
                 break;
             default:
-                $order = 'id desc';
+                $order = 'sort desc';
         }
-        $list = Goods::field(['id','title','images', 'start_price', 'begin_time', 'end_time'])->where($where)->order($order)->paginate(10)->toArray();
+        $list = Goods::field(['id','title','images','category_id', 'start_price', 'begin_time', 'end_time'])->where($where)->order($order)->paginate(10)->toArray();
         foreach ($list['data'] as &$value){
             if($value['images']){
                 $images = explode(',', $value['images']);
@@ -89,6 +90,7 @@ class Auction extends Api
                     $val = cdnurl($val, true);
                 }
                 $value['images'] = $images;
+                $value['categories'] = \app\common\model\Category::where('id', $value['category_id'])->value('name');
             }
         }
         if (!is_array($list)) {
@@ -111,7 +113,8 @@ class Auction extends Api
         if(!$id) $this->error('参数错误');
         $detail = Goods::with(['price_log' => function($query){
             $query->field('id,price,goods_id,user_id,createtime')->with(['user'])->order('price desc');
-        }])->field(['id','title','images', 'start_price', 'begin_time', 'end_time'])->find($id)->toArray();
+        }])->field(['id','title','images', 'category_id', 'content', 'start_price', 'begin_time', 'end_time'])->find($id);
+        if(!$detail) $this->error('商品不存在');
         if($detail['images']){
             $images = explode(',', $detail['images']);
             foreach ($images as &$val){
@@ -119,21 +122,25 @@ class Auction extends Api
             }
             $detail['images'] = $images;
         }
+        $detail['price_log'] = GoodsPriceLog::field('id,user_id,price,createtime')->with(['user'])->select();
         $where['status'] = 1;
         $where['category_id'] = $detail['category_id'];
-        $data = Goods::field(['id','title','images', 'start_price', 'begin_time', 'end_time'])->where($where)->where('end_time', '>', time())->order('id desc')->limit(0,2)->toArray();
-        foreach ($data as &$value){
-            if($value['images']){
-                $images = explode(',', $value['images']);
-                foreach ($images as &$val){
-                    $val = cdnurl($val, true);
+        $data = Goods::field(['id','title','images', 'start_price', 'begin_time', 'end_time'])->where($where)->where('end_time', '>', time())->order('id desc')->limit(0,2)->select();
+        if($data){
+            foreach ($data as &$value){
+                if($value['images']){
+                    $images = explode(',', $value['images']);
+                    foreach ($images as &$val){
+                        $val = cdnurl($val, true);
+                    }
+                    $value['images'] = $images;
                 }
-                $value['images'] = $images;
             }
         }
+
         $detail['likes'] = $data;
         //$detail['content'] = htmlentities($detail['content']);
-        if (!is_array($detail)) {
+        if (!is_object($detail)) {
             $this->error(__('Get data failed'));
         } else {
             $this->success(__('Get data success'), $detail);
@@ -178,10 +185,34 @@ class Auction extends Api
                 Db::rollback();
                 $this->error(__('Markup range must be an integer'));
             }
-            if($user['score'] < $price){
+            if(($user['score'] - $user['lock_score']) < $price){
                 Db::rollback();
                 $this->error(__('Insufficient points'));
             }
+            //最高出价检测
+            $maxUser = GoodsPriceLog::where('goods_id', $goods->id)->order('price', 'desc')->find();
+            if($maxUser && $maxUser->user_id == $this->auth->id) {
+                Db::rollback();
+                $this->error(__('You are already the highest price'));
+            }
+            //拍卖价格更新通知其他参与拍卖人员
+            $msgIds = GoodsPriceLog::where('goods_id', $goods->id)->where('user_id', '<>', $this->auth->id)->column('user_id');
+            $msgData =[];
+            foreach ($msgIds as $id){
+                $msgData[] = [
+                    'user_id' => $id,
+                    'content' => '您參與的拍賣品 '.$goods->title.'競拍最新價格為 '.$price
+                ];
+            }
+            if($msgData) {
+                $msgModel = new Message();
+                $msgModel->saveAll($msgData);
+            }
+
+            //冻结竞拍最高价用户积分
+            \app\common\model\User::lockScore($price, $this->auth->id);
+            //如果有前最高价解冻前最高价用户积分
+            if($maxUser) \app\common\model\User::lockScore(-$maxUser->price, $maxUser->user_id);
             $data = [
                 'goods_id' => $goods_id,
                 'user_id' => $this->auth->id,
@@ -192,7 +223,11 @@ class Auction extends Api
                 Db::rollback();
                 $this->error('Bid Failed');
             }
-            $goods->save(['now_price' => $price]);
+            $result = $goods->save(['now_price' => $price]);
+            if($result === false) {
+                Db::rollback();
+                $this->error('Bid Failed');
+            }
             Db::commit();
             $this->success(__('Bid successful'));
         } catch (Exception $exception){

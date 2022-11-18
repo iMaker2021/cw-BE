@@ -30,6 +30,7 @@ return [
     'Warning'                                               => '温馨提示',
     'Default'                                               => '默认',
     'Article'                                               => '文章',
+    'Auction'                                               => '拍卖',
     'Page'                                                  => '单页',
     'OK'                                                    => '确定',
     'Apply'                                                 => '应用',

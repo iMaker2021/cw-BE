@@ -19,6 +19,7 @@ class User extends Model
     // 追加属性
     protected $append = [
         'url',
+        'level_text'
     ];
 
     /**
@@ -30,6 +31,18 @@ class User extends Model
     public function getUrlAttr($value, $data)
     {
         return "/u/" . $data['id'];
+    }
+
+    /**
+     * 用户等级
+     * @param $value
+     * @param $data
+     * @return string
+     */
+    public function getLevelTextAttr($value, $data)
+    {
+        $value = $value ? $value : (isset($data['level']) ? $data['level'] : '');
+        return $value === 2 ? '商业账户' : '个人账户';
     }
 
     /**
@@ -120,11 +133,32 @@ class User extends Model
             if ($user && $score != 0) {
                 $before = $user->score;
                 $after = $user->score + $score;
-                $level = self::nextlevel($after);
+                //$level = self::nextlevel($after);
                 //更新会员信息
-                $user->save(['score' => $after, 'level' => $level]);
+                $user->save(['score' => $after]);
                 //写入日志
                 ScoreLog::create(['user_id' => $user_id, 'score' => $score, 'before' => $before, 'after' => $after, 'memo' => $memo]);
+            }
+            Db::commit();
+        } catch (\Exception $e) {
+            Db::rollback();
+        }
+    }
+
+    /**
+     * 变更已锁定的会员积分
+     * @param int    $score   积分
+     * @param int    $user_id 会员ID
+     */
+    public static function lockScore($score, $user_id)
+    {
+        Db::startTrans();
+        try {
+            $user = self::lock(true)->find($user_id);
+            if ($user && $score != 0) {
+                $newLockScore = $user->lock_score + $score;
+                //更新会员冻结积分
+                $user->save(['lock_score' => $newLockScore]);
             }
             Db::commit();
         } catch (\Exception $e) {
