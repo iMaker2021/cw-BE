@@ -1,0 +1,144 @@
+---------------------------------------------------------------
+[ 2022-11-11T16:40:03+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/common/order
+[运行时间：0.045734s] [吞吐率：21.87req/s] [内存消耗：3,960.26kb] [文件加载：139]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000015s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.002907s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_init [ RunTime:0.000694s ]
+[ info ] [ LANG ] D:\WWW\cw-BE\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000026s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'api',
+    1 => 'common',
+    2 => 'order',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'connection' => 'close',
+  'accept-encoding' => 'gzip, deflate, br',
+  'host' => 'dev.cw-be.com',
+  'accept' => '*/*',
+  'user-agent' => 'apifox/1.0.0 (https://www.apifox.cn)',
+)
+[ info ] [ PARAM ] array (
+  '/api/common/order' => '',
+)
+[ info ] [ LANG ] D:\WWW\cw-BE\public/../application/api\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001009s ]
+[ info ] [ LANG ] D:\WWW\cw-BE\public/../application/api/lang/zh-cn/common.php
+[ info ] [ RUN ] app\api\controller\Common->order[ D:\WWW\cw-BE\application\api\controller\Common.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] 无拍卖商品可生成订单
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2022-11-11T16:41:04+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/common/order
+[运行时间：0.058280s] [吞吐率：17.16req/s] [内存消耗：3,960.29kb] [文件加载：139]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000014s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.002165s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_init [ RunTime:0.000549s ]
+[ info ] [ LANG ] D:\WWW\cw-BE\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000024s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'api',
+    1 => 'common',
+    2 => 'order',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'connection' => 'close',
+  'accept-encoding' => 'gzip, deflate, br',
+  'host' => 'dev.cw-be.com',
+  'accept' => '*/*',
+  'user-agent' => 'apifox/1.0.0 (https://www.apifox.cn)',
+)
+[ info ] [ PARAM ] array (
+  '/api/common/order' => '',
+)
+[ info ] [ LANG ] D:\WWW\cw-BE\public/../application/api\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.000977s ]
+[ info ] [ LANG ] D:\WWW\cw-BE\public/../application/api/lang/zh-cn/common.php
+[ info ] [ RUN ] app\api\controller\Common->order[ D:\WWW\cw-BE\application\api\controller\Common.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] 无拍卖商品可生成订单12312312
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2022-11-11T16:41:35+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/common/order
+[运行时间：0.058847s] [吞吐率：16.99req/s] [内存消耗：3,959.46kb] [文件加载：139]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000013s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.001593s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_init [ RunTime:0.000446s ]
+[ info ] [ LANG ] D:\WWW\cw-BE\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000017s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'api',
+    1 => 'common',
+    2 => 'order',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'connection' => 'close',
+  'accept-encoding' => 'gzip, deflate, br',
+  'host' => 'dev.cw-be.com',
+  'accept' => '*/*',
+  'user-agent' => 'apifox/1.0.0 (https://www.apifox.cn)',
+)
+[ info ] [ PARAM ] array (
+  '/api/common/order' => '',
+)
+[ info ] [ LANG ] D:\WWW\cw-BE\public/../application/api\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.000886s ]
+[ info ] [ LANG ] D:\WWW\cw-BE\public/../application/api/lang/zh-cn/common.php
+[ info ] [ RUN ] app\api\controller\Common->order[ D:\WWW\cw-BE\application\api\controller\Common.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] 无拍卖商品可生成订单12312312
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2022-11-11T16:43:36+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/common/order
+[运行时间：0.044257s] [吞吐率：22.60req/s] [内存消耗：3,960.29kb] [文件加载：139]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000014s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.001563s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_init [ RunTime:0.000597s ]
+[ info ] [ LANG ] D:\WWW\cw-BE\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000029s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'api',
+    1 => 'common',
+    2 => 'order',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'connection' => 'close',
+  'accept-encoding' => 'gzip, deflate, br',
+  'host' => 'dev.cw-be.com',
+  'accept' => '*/*',
+  'user-agent' => 'apifox/1.0.0 (https://www.apifox.cn)',
+)
+[ info ] [ PARAM ] array (
+  '/api/common/order' => '',
+)
+[ info ] [ LANG ] D:\WWW\cw-BE\public/../application/api\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001083s ]
+[ info ] [ LANG ] D:\WWW\cw-BE\public/../application/api/lang/zh-cn/common.php
+[ info ] [ RUN ] app\api\controller\Common->order[ D:\WWW\cw-BE\application\api\controller\Common.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] 无拍卖商品可生成订单error
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2022-11-11T16:44:41+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/common/order
+[运行时间：0.037211s] [吞吐率：26.87req/s] [内存消耗：3,957.46kb] [文件加载：139]
+[ notice ] 无拍卖商品可生成订单error

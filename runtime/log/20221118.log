@@ -1,0 +1,76 @@
+---------------------------------------------------------------
+[ 2022-11-18T09:39:16+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/user/user_info
+[运行时间：0.065916s] [吞吐率：15.17req/s] [内存消耗：4,065.64kb] [文件加载：144]
+[ error ] [8]未定义数组索引: nickname[D:\WWW\cw-BE\application\common\model\User.php:46]
+---------------------------------------------------------------
+[ 2022-11-18T09:41:28+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/user/user_info
+[运行时间：0.066818s] [吞吐率：14.97req/s] [内存消耗：4,062.98kb] [文件加载：144]
+[ error ] [8]未定义数组索引: nickname[D:\WWW\cw-BE\application\common\model\User.php:46]
+---------------------------------------------------------------
+[ 2022-11-18T16:34:11+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.072204s] [吞吐率：13.85req/s] [内存消耗：4,229.07kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'status' in where clause is ambiguous[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:34:45+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.068909s] [吞吐率：14.51req/s] [内存消耗：4,229.10kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'status' in where clause is ambiguous[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:36:15+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.069493s] [吞吐率：14.39req/s] [内存消耗：4,229.50kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'status' in where clause is ambiguous[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:36:35+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.053668s] [吞吐率：18.63req/s] [内存消耗：4,232.97kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'status' in where clause is ambiguous[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:37:32+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.070415s] [吞吐率：14.20req/s] [内存消耗：4,229.66kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'status' in where clause is ambiguous[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:38:21+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.067694s] [吞吐率：14.77req/s] [内存消耗：4,228.16kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'g.status' in 'where clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:38:45+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.067948s] [吞吐率：14.72req/s] [内存消耗：4,228.20kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'g.status' in 'where clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:39:47+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.051371s] [吞吐率：19.47req/s] [内存消耗：4,228.35kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'good.status' in 'where clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:40:39+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.053906s] [吞吐率：18.55req/s] [内存消耗：4,228.35kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'good.status' in 'where clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:42:00+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.052609s] [吞吐率：19.01req/s] [内存消耗：4,229.47kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'status' in where clause is ambiguous[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:42:20+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.042206s] [吞吐率：23.69req/s] [内存消耗：4,229.50kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'status' in where clause is ambiguous[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:42:52+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.070106s] [吞吐率：14.26req/s] [内存消耗：4,229.52kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'status' in where clause is ambiguous[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:43:10+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.067956s] [吞吐率：14.72req/s] [内存消耗：4,229.55kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'status' in where clause is ambiguous[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:44:34+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.054865s] [吞吐率：18.23req/s] [内存消耗：4,232.51kb] [文件加载：153]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'status' in where clause is ambiguous[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-18T16:46:26+08:00 ] 127.0.0.1 GET dev.cw-be.com:81/api/auction/goods?cate_id=18&page=1&min_price=2&max_price=100&order_type=1
+[运行时间：0.071304s] [吞吐率：14.02req/s] [内存消耗：4,204.73kb] [文件加载：150]
+[ error ] [8]未定义数组索引: category_id[D:\WWW\cw-BE\application\api\controller\Auction.php:93]
+---------------------------------------------------------------
+[ 2022-11-18T17:39:42+08:00 ] 127.0.0.1 POST dev.cw-be.com:81/api/common/test_push
+[运行时间：0.052507s] [吞吐率：19.05req/s] [内存消耗：4,199.00kb] [文件加载：165]
+[ error ] [0]AccessKey Secret must be a string[D:\WWW\cw-BE\vendor\alibabacloud\client\src\Filter\CredentialFilter.php:139]
+---------------------------------------------------------------
+[ 2022-11-18T17:41:54+08:00 ] 127.0.0.1 POST dev.cw-be.com:81/api/common/test_push
+[运行时间：0.069863s] [吞吐率：14.31req/s] [内存消耗：4,199.00kb] [文件加载：165]
+[ error ] [0]AccessKey Secret cannot be empty[D:\WWW\cw-BE\vendor\alibabacloud\client\src\Filter\CredentialFilter.php:146]

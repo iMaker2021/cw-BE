@@ -1,0 +1,60 @@
+---------------------------------------------------------------
+[ 2022-11-16T12:02:20+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/address/lst
+[运行时间：0.054653s] [吞吐率：18.30req/s] [内存消耗：3,951.12kb] [文件加载：141]
+[ error ] [0]致命错误: Call to a member function toArray() on array[D:\WWW\cw-BE\application\api\controller\Address.php:32]
+---------------------------------------------------------------
+[ 2022-11-16T12:15:53+08:00 ] 127.0.0.1 POST dev.cw-be.com/api/address/save?id=1&receive_name=%E7%BD%97%E5%BE%8B%E5%B8%88&phone=835351-4100&address=%E9%A6%99%E6%B8%AF%E5%A4%A7%E5%AD%A6&is_default=1
+[运行时间：0.044628s] [吞吐率：22.41req/s] [内存消耗：3,928.48kb] [文件加载：143]
+[ error ] [10501]SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1' for key 'PRIMARY'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:453]
+---------------------------------------------------------------
+[ 2022-11-16T14:10:09+08:00 ] 127.0.0.1 PUT dev.cw-be.com/api/address/del?ids[]=3
+[运行时间：0.036995s] [吞吐率：27.03req/s] [内存消耗：3,964.38kb] [文件加载：140]
+[ error ] [0]variable type error：array[D:\WWW\cw-BE\thinkphp\library\think\Request.php:1162]
+---------------------------------------------------------------
+[ 2022-11-16T14:10:54+08:00 ] 127.0.0.1 PUT dev.cw-be.com/api/address/del?ids[]=3&ids[]=2
+[运行时间：0.064062s] [吞吐率：15.61req/s] [内存消耗：3,964.43kb] [文件加载：140]
+[ error ] [0]variable type error：array[D:\WWW\cw-BE\thinkphp\library\think\Request.php:1162]
+---------------------------------------------------------------
+[ 2022-11-16T15:56:28+08:00 ] 127.0.0.1 POST dev.cw-be.com/api/common/test_push
+[运行时间：0.047615s] [吞吐率：21.00req/s] [内存消耗：3,980.56kb] [文件加载：142]
+[ error ] [0]致命错误: Call to a member function push() on null[D:\WWW\cw-BE\application\common\controller\JPush.php:27]
+---------------------------------------------------------------
+[ 2022-11-16T16:00:57+08:00 ] 127.0.0.1 POST dev.cw-be.com/api/common/test_push
+[运行时间：0.067818s] [吞吐率：14.75req/s] [内存消耗：3,980.56kb] [文件加载：142]
+[ error ] [0]致命错误: Call to a member function build() on null[D:\WWW\cw-BE\application\common\controller\JPush.php:27]
+---------------------------------------------------------------
+[ 2022-11-16T16:03:09+08:00 ] 127.0.0.1 POST dev.cw-be.com/api/common/test_push
+[运行时间：0.045953s] [吞吐率：21.76req/s] [内存消耗：3,981.98kb] [文件加载：142]
+[ error ] [0]致命错误: Call to a member function push() on null[D:\WWW\cw-BE\application\common\controller\JPush.php:28]
+---------------------------------------------------------------
+[ 2022-11-16T16:38:38+08:00 ] 127.0.0.1 POST dev.cw-be.com/api/common/test_push
+[运行时间：0.070830s] [吞吐率：14.12req/s] [内存消耗：4,104.45kb] [文件加载：146]
+[ error ] [2]Use of undefined constant AudienceTarget - assumed 'AudienceTarget' (this will throw an Error in a future version of PHP)[D:\WWW\cw-BE\application\common\controller\JPush.php:33]
+---------------------------------------------------------------
+[ 2022-11-16T16:39:19+08:00 ] 127.0.0.1 POST dev.cw-be.com/api/common/test_push
+[运行时间：0.042748s] [吞吐率：23.39req/s] [内存消耗：4,104.05kb] [文件加载：146]
+[ error ] [2]strtolower() expects parameter 1 to be string, array given[D:\WWW\cw-BE\vendor\jpush\jpush\src\JPush\PushPayload.php:71]
+---------------------------------------------------------------
+[ 2022-11-16T16:42:08+08:00 ] 127.0.0.1 POST dev.cw-be.com/api/common/test_push
+[运行时间：0.066592s] [吞吐率：15.02req/s] [内存消耗：3,995.46kb] [文件加载：144]
+[ error ] [0]类型错误: Argument 1 passed to app\common\controller\JPush::pushMsg() must be of the type array, string given, called in D:\WWW\cw-BE\application\api\controller\Common.php on line 263[D:\WWW\cw-BE\application\common\controller\JPush.php:25]
+---------------------------------------------------------------
+[ 2022-11-16T16:42:44+08:00 ] 127.0.0.1 POST dev.cw-be.com/api/common/test_push
+[运行时间：0.064824s] [吞吐率：15.43req/s] [内存消耗：4,097.60kb] [文件加载：144]
+[ error ] [0]Invalid audience value[D:\WWW\cw-BE\vendor\jpush\jpush\src\JPush\PushPayload.php:75]
+---------------------------------------------------------------
+[ 2022-11-16T16:43:07+08:00 ] 127.0.0.1 POST dev.cw-be.com/api/common/test_push
+[运行时间：0.039079s] [吞吐率：25.59req/s] [内存消耗：4,104.89kb] [文件加载：146]
+[ error ] [2]strtolower() expects parameter 1 to be string, array given[D:\WWW\cw-BE\vendor\jpush\jpush\src\JPush\PushPayload.php:71]
+---------------------------------------------------------------
+[ 2022-11-16T16:45:01+08:00 ] 127.0.0.1 POST dev.cw-be.com/api/common/test_push
+[运行时间：0.067059s] [吞吐率：14.91req/s] [内存消耗：4,098.02kb] [文件加载：144]
+[ error ] [0]Invalid audience value[D:\WWW\cw-BE\vendor\jpush\jpush\src\JPush\PushPayload.php:75]
+---------------------------------------------------------------
+[ 2022-11-16T16:45:59+08:00 ] 127.0.0.1 POST dev.cw-be.com/api/common/test_push
+[运行时间：0.049605s] [吞吐率：20.16req/s] [内存消耗：4,103.85kb] [文件加载：146]
+[ error ] [2]strtolower() expects parameter 1 to be string, array given[D:\WWW\cw-BE\vendor\jpush\jpush\src\JPush\PushPayload.php:71]
+---------------------------------------------------------------
+[ 2022-11-16T16:46:14+08:00 ] 127.0.0.1 POST dev.cw-be.com/api/common/test_push
+[运行时间：0.068331s] [吞吐率：14.63req/s] [内存消耗：4,102.17kb] [文件加载：145]
+[ error ] [0]类型错误: Too few arguments to function JPush\PushPayload::setAudience(), 0 passed in D:\WWW\cw-BE\application\common\controller\JPush.php on line 29 and exactly 1 expected[D:\WWW\cw-BE\vendor\jpush\jpush\src\JPush\PushPayload.php:70]

@@ -1,0 +1,16 @@
+---------------------------------------------------------------
+[ 2022-11-17T10:00:34+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/article/detail?id=23
+[运行时间：0.056633s] [吞吐率：17.66req/s] [内存消耗：3,965.19kb] [文件加载：143]
+[ error ] [0]致命错误: Call to a member function toArray() on null[D:\WWW\cw-BE\application\api\controller\Article.php:76]
+---------------------------------------------------------------
+[ 2022-11-17T10:19:03+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/article/detail?id=23
+[运行时间：0.054173s] [吞吐率：18.46req/s] [内存消耗：3,965.20kb] [文件加载：143]
+[ error ] [0]致命错误: Call to a member function toArray() on null[D:\WWW\cw-BE\application\api\controller\Article.php:76]
+---------------------------------------------------------------
+[ 2022-11-17T10:27:51+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/auction/detail?id=1
+[运行时间：0.059551s] [吞吐率：16.79req/s] [内存消耗：4,252.70kb] [文件加载：149]
+[ error ] [0]method not exist:think\db\Query->toArray[D:\WWW\cw-BE\thinkphp\library\think\db\Query.php:103]
+---------------------------------------------------------------
+[ 2022-11-17T10:33:30+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/auction/detail?id=5
+[运行时间：0.055558s] [吞吐率：18.00req/s] [内存消耗：4,229.48kb] [文件加载：149]
+[ error ] [0]致命错误: Call to a member function toArray() on array[D:\WWW\cw-BE\application\api\controller\Auction.php:127]

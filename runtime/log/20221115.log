@@ -1,0 +1,36 @@
+---------------------------------------------------------------
+[ 2022-11-15T09:56:58+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/auction/detail?id=1
+[运行时间：0.082113s] [吞吐率：12.18req/s] [内存消耗：4,246.22kb] [文件加载：150]
+[ error ] [8]未定义数组索引: [D:\WWW\cw-BE\application\admin\model\auction\Goods.php:46]
+---------------------------------------------------------------
+[ 2022-11-15T09:58:22+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/auction/detail?id=1
+[运行时间：0.057816s] [吞吐率：17.30req/s] [内存消耗：4,248.08kb] [文件加载：149]
+[ error ] [0]致命错误: Call to a member function toArray() on array[D:\WWW\cw-BE\application\api\controller\Auction.php:123]
+---------------------------------------------------------------
+[ 2022-11-15T09:58:34+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/auction/detail?id=1
+[运行时间：0.072437s] [吞吐率：13.81req/s] [内存消耗：4,250.04kb] [文件加载：150]
+[ error ] [8]未定义数组索引: category_id[D:\WWW\cw-BE\application\api\controller\Auction.php:125]
+---------------------------------------------------------------
+[ 2022-11-15T09:59:18+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/auction/detail?id=1
+[运行时间：0.070533s] [吞吐率：14.18req/s] [内存消耗：4,251.65kb] [文件加载：149]
+[ error ] [0]method not exist:think\db\Query->toArray[D:\WWW\cw-BE\thinkphp\library\think\db\Query.php:103]
+---------------------------------------------------------------
+[ 2022-11-15T09:59:34+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/auction/detail?id=1
+[运行时间：0.049049s] [吞吐率：20.39req/s] [内存消耗：4,251.65kb] [文件加载：149]
+[ error ] [0]method not exist:think\db\Query->toArray[D:\WWW\cw-BE\thinkphp\library\think\db\Query.php:103]
+---------------------------------------------------------------
+[ 2022-11-15T10:03:02+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/auction/goods?cate_id=14&page=2&min_price=2&max_price=100&order_type=1
+[运行时间：0.071005s] [吞吐率：14.08req/s] [内存消耗：4,072.91kb] [文件加载：146]
+[ error ] [0]查询表达式错误:status[D:\WWW\cw-BE\thinkphp\library\think\db\Builder.php:347]
+---------------------------------------------------------------
+[ 2022-11-15T10:04:17+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/auction/goods?cate_id=14&page=2&min_price=2&max_price=100&order_type=1
+[运行时间：0.067976s] [吞吐率：14.71req/s] [内存消耗：4,072.88kb] [文件加载：146]
+[ error ] [0]查询表达式错误:eq [D:\WWW\cw-BE\thinkphp\library\think\db\Builder.php:347]
+---------------------------------------------------------------
+[ 2022-11-15T16:27:21+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/user/order_detail?id=2
+[运行时间：0.053699s] [吞吐率：18.62req/s] [内存消耗：4,151.86kb] [文件加载：146]
+[ error ] [0]类的属性不存在:app\admin\model\auction\Order->user_id[D:\WWW\cw-BE\thinkphp\library\think\Model.php:626]
+---------------------------------------------------------------
+[ 2022-11-15T16:28:17+08:00 ] 127.0.0.1 GET dev.cw-be.com/api/user/order_detail?id=2
+[运行时间：0.056060s] [吞吐率：17.84req/s] [内存消耗：4,151.91kb] [文件加载：146]
+[ error ] [0]类的属性不存在:app\admin\model\auction\Order->user_id[D:\WWW\cw-BE\thinkphp\library\think\Model.php:626]

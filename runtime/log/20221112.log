@@ -1,0 +1,48 @@
+---------------------------------------------------------------
+[ 2022-11-12T09:46:26+08:00 ] 127.0.0.1 GET dev.cw-be.com/WfqwSJzyVp.php/auction/order/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1668217585737
+[运行时间：0.067370s] [吞吐率：14.84req/s] [内存消耗：4,760.74kb] [文件加载：158]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'goods.goods_id' in 'on clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-12T16:16:17+08:00 ] 127.0.0.1 GET dev.cw-be.com/WfqwSJzyVp.php/auction/goods/price_log?dialog=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%22id%22%3A%227%22%7D&op=%7B%22id%22%3A%22%3D%22%7D&_=1668240976815
+[运行时间：0.048411s] [吞吐率：20.66req/s] [内存消耗：4,506.77kb] [文件加载：148]
+[ error ] [0]类不存在:app\common\model\GoodPriceLog[D:\WWW\cw-BE\thinkphp\library\think\Loader.php:457]
+---------------------------------------------------------------
+[ 2022-11-12T16:18:10+08:00 ] 127.0.0.1 GET dev.cw-be.com/WfqwSJzyVp.php/auction/goods/price_log?dialog=1&search=&sort=createtime&order=asc&offset=0&limit=10&filter=%7B%22id%22%3A%221%22%2C%22title%22%3A%22%E5%AE%A0%E7%89%A9%22%7D&op=%7B%22id%22%3A%22%3D%22%2C%22title%22%3A%22LIKE%22%7D&_=1668241051438
+[运行时间：0.069718s] [吞吐率：14.34req/s] [内存消耗：4,742.97kb] [文件加载：157]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'title' in 'where clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-12T16:19:08+08:00 ] 127.0.0.1 GET dev.cw-be.com/WfqwSJzyVp.php/auction/goods/price_log?dialog=1&search=&sort=createtime&order=asc&offset=0&limit=10&filter=%7B%22id%22%3A%221%22%2C%22title%22%3A%22%E5%AE%A0%E7%89%A9%22%7D&op=%7B%22id%22%3A%22%3D%22%2C%22title%22%3A%22LIKE%22%7D&_=1668241051439
+[运行时间：0.062891s] [吞吐率：15.90req/s] [内存消耗：4,742.97kb] [文件加载：157]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'title' in 'where clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-12T16:31:31+08:00 ] 127.0.0.1 GET dev.cw-be.com/WfqwSJzyVp.php/auction/goods/price_log?dialog=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%22id%22%3A%221%22%7D&op=%7B%22id%22%3A%22%3D%22%7D&_=1668241891243
+[运行时间：0.055795s] [吞吐率：17.92req/s] [内存消耗：4,776.70kb] [文件加载：158]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'goods_id' in 'where clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-12T16:42:37+08:00 ] 127.0.0.1 GET dev.cw-be.com/WfqwSJzyVp.php/auction/goods/price_log?dialog=1&sort=createtime&order=desc&offset=0&limit=10&filter=%7B%22goods.title%22%3A%22%E5%AE%A0%E7%89%A9%22%7D&op=%7B%22goods.title%22%3A%22LIKE%22%7D&_=1668242528226
+[运行时间：0.078968s] [吞吐率：12.66req/s] [内存消耗：4,741.73kb] [文件加载：157]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'goods.title' in 'where clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-12T16:42:47+08:00 ] 127.0.0.1 GET dev.cw-be.com/WfqwSJzyVp.php/auction/goods/price_log?dialog=1&sort=createtime&order=desc&offset=0&limit=10&filter=%7B%22goods.title%22%3A%22%E5%AE%A0%E7%89%A9%22%7D&op=%7B%22goods.title%22%3A%22LIKE%22%7D&_=1668242528227
+[运行时间：0.052914s] [吞吐率：18.90req/s] [内存消耗：4,741.73kb] [文件加载：157]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'goods.title' in 'where clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-12T16:43:40+08:00 ] 127.0.0.1 GET dev.cw-be.com/WfqwSJzyVp.php/auction/goods/price_log?dialog=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1668242620627
+[运行时间：0.055037s] [吞吐率：18.17req/s] [内存消耗：4,739.52kb] [文件加载：157]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'goods.id' in 'order clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-12T16:45:22+08:00 ] 127.0.0.1 GET dev.cw-be.com/WfqwSJzyVp.php/auction/goods/price_log?dialog=1&sort=createtime&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1668242721782
+[运行时间：0.060437s] [吞吐率：16.55req/s] [内存消耗：4,739.56kb] [文件加载：157]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'goods.createtime' in 'order clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-12T16:46:15+08:00 ] 127.0.0.1 GET dev.cw-be.com/WfqwSJzyVp.php/auction/goods/price_log?dialog=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1668242774821
+[运行时间：0.058339s] [吞吐率：17.14req/s] [内存消耗：4,739.55kb] [文件加载：157]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'goods.id' in 'order clause'[D:\WWW\cw-BE\thinkphp\library\think\db\Connection.php:385]
+---------------------------------------------------------------
+[ 2022-11-12T16:49:48+08:00 ] 127.0.0.1 GET dev.cw-be.com/WfqwSJzyVp.php/auction/order/edit/ids/2?dialog=1
+[运行时间：0.056555s] [吞吐率：17.68req/s] [内存消耗：4,680.77kb] [文件加载：149]
+[ error ] [0]类的属性不存在:app\admin\model\auction\Order->address_id[D:\WWW\cw-BE\thinkphp\library\think\Model.php:626]
+---------------------------------------------------------------
+[ 2022-11-12T16:49:54+08:00 ] 127.0.0.1 GET dev.cw-be.com/WfqwSJzyVp.php/auction/order/edit/ids/2?dialog=1
+[运行时间：0.055179s] [吞吐率：18.12req/s] [内存消耗：4,471.61kb] [文件加载：147]
+[ error ] [0]类的属性不存在:app\admin\model\auction\Order->address_id[D:\WWW\cw-BE\thinkphp\library\think\Model.php:626]
