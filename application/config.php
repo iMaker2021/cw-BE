@@ -311,12 +311,12 @@ return [
         'appSecret'             => '2183636f7353db7f206f51fd',
     ],
 
-    //阿里云推送
+    //阿里云移动推送
     'aliPush'             => [
-        'accessKeyId'                => 'b81229a865bfdf4578705764',
-        'accessKeySecret'             => '2183636f7353db7f206f51fd',
-        'appKey'             => '2183636f7353db7f206f51fd',
-        'regionId'             => '2183636f7353db7f206f51fd',
+        'accessKeyId'                => 'LTAI5tBcimZDEqoqKNJERNvC',
+        'accessKeySecret'             => 'Sse0akvSUDnoHC4JeAeRwe8aE4MsKQ',
+        'appKey'             => '333795972',
+        'regionId'             => 'cn-shenzhen',
     ],
 
     //stripe条纹支付配置
