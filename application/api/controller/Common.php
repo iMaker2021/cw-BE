@@ -5,6 +5,7 @@ namespace app\api\controller;
 use app\admin\model\auction\Goods;
 use app\common\controller\AliPush;
 use app\common\controller\Api;
+use app\common\controller\GooglePush;
 use app\common\controller\JPush;
 use app\common\exception\UploadException;
 use app\common\library\Upload;
@@ -260,8 +261,8 @@ class Common extends Api
 
     public function test_push()
     {
-        $push = new AliPush();
-        $result = $push->pushMsg(['190e35f7e0a1867a445'], '这是一个测试推送消息');
+        $push = new GooglePush();
+        $result = $push->push('推送测试', '这是一个测试推送消息', ['123123123']);
         dump($result);
     }
 }

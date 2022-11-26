@@ -33,7 +33,8 @@
         "txthinking/mailer": "^2.0",
         "endroid/qr-code": "^4.3",
         "stripe/stripe-php": "^9.8",
-        "alibabacloud/sdk": "^1.8"
+        "alibabacloud/sdk": "^1.8",
+        "google/apiclient": "^2.12"
     },
     "config": {
         "preferred-install": "dist",

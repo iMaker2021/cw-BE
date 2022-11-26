@@ -494,7 +494,7 @@ class User extends Api
         if(!$money || !is_numeric($money) || $money <= 0) $this->error(__('Incorrect recharge amount'));
         try{
             $orderNo = get_order_no();
-            \Stripe\Stripe::setApiKey(config('stripeTest.privateKey'));
+            \Stripe\Stripe::setApiKey(config('stripe.privateKey'));
             $intent = \Stripe\PaymentIntent::create([
                 'amount' => $money * 100, //充值金额
                 'currency' => 'hkd', //币种
@@ -589,8 +589,17 @@ class User extends Api
     public function get_owner_order()
     {
         $list = Order::alias('order')->field('id,order_no,total_score,address,express_no,status,createtime')->with(['goods' => function($query){
-            $query->alias('goods')->withField('title,is_order');
+            $query->alias('goods')->withField('title,images,is_order');
         }])->where('order.user_id', $this->auth->id)->order('order.id', 'desc')->paginate(10)->toArray();
+        if(!empty($list['data'])){
+            foreach ($list['data'] as &$value){
+                $images = explode(',', $value['goods']['images']);
+                foreach ($images as &$val){
+                    $val = cdnurl($val, true);
+                }
+                $value['goods']['images'] = $images;
+            }
+        }
         if(!is_array($list)){
             $this->error(__('Operation failed'));
         }
@@ -608,10 +617,15 @@ class User extends Api
         $id = $this->request->param('id', 0);
         if(!$id) $this->error(__('Invalid parameters'));
         $detail = Order::alias('order')->field('id,user_id,order_no,total_score,receive_name,phone,address,express_no,status,createtime')->with(['goods' => function($query){
-            $query->alias('goods')->withField('title,is_order');
+            $query->alias('goods')->withField('title,images,is_order');
         }])->where('order.id', $id)->find();
         if(!$detail) $this->error(__('Order does not exist'));
         if($detail->user_id != $this->auth->id) $this->error(__('You can only operate your own order'));
+        $images = explode(',', $detail->goods->images);
+        foreach ($images as &$val){
+            $val = cdnurl($val, true);
+        }
+        $detail->goods->images = $images;
         $this->success(__('Get data success'), $detail);
     }
 

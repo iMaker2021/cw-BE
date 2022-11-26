@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"D:\WWW\cw-BE\public/../application/admin\view\auction\goods\edit.html";i:1668476417;s:55:"D:\WWW\cw-BE\application\admin\view\layout\default.html";i:1653893966;s:52:"D:\WWW\cw-BE\application\admin\view\common\meta.html";i:1653893966;s:54:"D:\WWW\cw-BE\application\admin\view\common\script.html";i:1653893966;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"D:\WWW\cw-BE\public/../application/admin\view\auction\goods\edit.html";i:1669273302;s:55:"D:\WWW\cw-BE\application\admin\view\layout\default.html";i:1653893966;s:52:"D:\WWW\cw-BE\application\admin\view\common\meta.html";i:1653893966;s:54:"D:\WWW\cw-BE\application\admin\view\common\script.html";i:1653893966;}*/ ?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -70,7 +70,7 @@
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2"><?php echo __('Start_price'); ?>:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-start_price" data-rule="required" min="0" class="form-control" step="0.01" name="row[start_price]" type="number" value="<?php echo htmlentities($row['start_price']); ?>">
+            <input id="c-start_price" data-rule="required" min="0" class="form-control" readonly step="0.01" name="row[start_price]" type="number" value="<?php echo htmlentities($row['start_price']); ?>">
         </div>
     </div>
     <div class="form-group">

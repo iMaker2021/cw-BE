@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "712040585375",
+    "project_id": "cw-imaker",
+    "storage_bucket": "cw-imaker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712040585375:android:64e720a352079def58aaaa",
+        "android_client_info": {
+          "package_name": "com.imaker.mar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "712040585375-lngs5r6h4kf7jucjid08ekeqgjgpltng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-8OieW_0235bzxeSvDVEsz4Nn563WIHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "712040585375-lngs5r6h4kf7jucjid08ekeqgjgpltng.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

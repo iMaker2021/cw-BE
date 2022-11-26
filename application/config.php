@@ -319,13 +319,19 @@ return [
         'regionId'             => 'cn-shenzhen',
     ],
 
-    //stripe条纹支付配置
-    'stripeTest'             => [
-        'publishableKey'        => 'pk_test_51M4gW5Dvd6sxQfTb3voI0n1E9nkYdBUpF3yJMunZPDHRMIc893gBN3gAqfVmxNvgNchh9Yp6D9WPS0hiPqkmVOO900afgeVLWc',
-        'privateKey'            => 'sk_test_51M4gW5Dvd6sxQfTbl5DK4iMeRjdA7Wfiq4ekWaDtbXZk2QpyE0J4hqwCjJJOCeMT47Pn3QULjd5i6CNwD8wQMeK600AKqjlpGg'
+    //谷歌推送
+    'google_push'             => [
+        'auth_key_file_path'   => './cw-imaker-firebase-adminsdk-qjaho-d84168bedc.json',
+        'project_id'   => 'cw-imaker',
     ],
+
+    //stripe条纹支付配置
     'stripe'             => [
         'publishableKey'        => 'pk_test_51M4gW5Dvd6sxQfTb3voI0n1E9nkYdBUpF3yJMunZPDHRMIc893gBN3gAqfVmxNvgNchh9Yp6D9WPS0hiPqkmVOO900afgeVLWc',
         'privateKey'            => 'sk_test_51M4gW5Dvd6sxQfTbl5DK4iMeRjdA7Wfiq4ekWaDtbXZk2QpyE0J4hqwCjJJOCeMT47Pn3QULjd5i6CNwD8wQMeK600AKqjlpGg'
+    ],
+    'stripeTest'             => [
+        'publishableKey'        => 'pk_test_51Lx3QcH63ppBMz2np3zV275vxX14LEEJYVGOzFxknTfjRwSVZeTsovFng7HZvMsM0scyPneFau3hKCaU1h6nN0fg00idAnxhgn',
+        'privateKey'            => 'sk_test_51Lx3QcH63ppBMz2nUvJkRJDIPvZNUq4HSVSaYfiGQsPKnQLcyqh7SjDZBxgwqDA1FAM3Yio2UeR1LJeYyN3d9Oaf00Nuis93M1'
     ],
 ];

@@ -511,4 +511,27 @@ if (!function_exists('build_suffix_image')) {
 EOT;
         return $icon;
     }
+
+    if (!function_exists('curl_post')) {
+        function curl_post($url, $header, $params)
+        {
+            //$data_string = json_encode($params,JSON_UNESCAPED_UNICODE);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+            curl_setopt(
+                $ch, CURLOPT_HTTPHEADER,
+                $header
+            );
+
+            $data = curl_exec($ch);
+            curl_close($ch);
+            return ($data);
+        }
+    }
 }
