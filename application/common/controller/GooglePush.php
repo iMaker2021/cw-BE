@@ -23,7 +23,7 @@ class GooglePush
         //推送参数
         $params = [
             "message" => [
-                "token" => $users, //需要发送的设备号
+                "token" => implode(',', $users), //需要发送的设备号
                 "notification" => [
                     "title" => $title,
                     "body" => $msg
