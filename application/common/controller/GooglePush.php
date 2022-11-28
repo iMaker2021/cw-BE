@@ -56,8 +56,9 @@ class GooglePush
     {
         try {
             $cache_key = 'push:access_token:key';
+            cache($cache_key, null);
             $accessToken = cache($cache_key);
-            if (empty($token)) {
+            if (empty($accessToken)) {
                 //国内服务器需要使用代理，不然请求不了google接口
                 $proxy = 'vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIlVTQSBDUDE2IiwNCiAgImFkZCI6ICJjcDE2LndvZGVzcy5kZSIsDQogICJwb3J0IjogIjg0NDMiLA0KICAiaWQiOiAiYjZlMjQ3OWYtYTFmYi00Yzc3LThjMDYtNjgwYTcxYWU3MmRkIiwNCiAgImFpZCI6ICI2NCIsDQogICJzY3kiOiAiYXV0byIsDQogICJuZXQiOiAid3MiLA0KICAidHlwZSI6ICJub25lIiwNCiAgImhvc3QiOiAiIiwNCiAgInBhdGgiOiAiL3dzLzY1anY2Zjg6OGIxODI0Mzc2NjIyODYzMzM3MTM3NDU3Nzc5YWU3NmUvIiwNCiAgInRscyI6ICJ0bHMiLA0KICAic25pIjogIiINCn0=';
                 $httpClient = new \GuzzleHttp\Client([

@@ -1,7 +1,7 @@
 /nbproject/
-/thinkphp/
 /runtime/*
 /application/admin/command/Install/*.lock
+/application/database.php
 .idea
 composer.lock
 *.log
