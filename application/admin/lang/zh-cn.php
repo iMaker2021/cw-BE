@@ -198,6 +198,7 @@ return [
     'Auction manage'                                        => '拍卖管理',
     'Goods manage'                                          => '商品管理',
     'Order manage'                                          => '订单管理',
+    'Member handbook'                                       => '会员手册',
     'Select attachment'                                     => '选择附件',
     'Update profile'                                        => '更新个人信息',
     'Local install'                                         => '本地安装',

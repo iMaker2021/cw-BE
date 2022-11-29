@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use app\admin\model\auction\Goods;
 use app\admin\model\auction\Order;
+use app\admin\model\Handbook;
 use app\common\controller\Api;
 use app\common\library\Ems;
 use app\common\library\Sms;
@@ -737,6 +738,54 @@ class User extends Api
             $this->error(__('Operation failed'));
         }
         $this->success('success');
+    }
+
+    /**
+     * 获取用户推送设置
+     */
+    public function get_push_setting()
+    {
+        $info = \app\common\model\User::field('id,is_allow_push,is_new_stuff,is_order_and_return,level')->find($this->auth->id);
+        if(!$info) $this->error(__('Operation failed'));
+        $this->success('success', $info);
+    }
+
+    /**
+     * 推送消息设置
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function set_push()
+    {
+        $isAllowPush = (int)$this->request->param('is_allow_push');
+        $isNewStuff = (int)$this->request->param('is_new_stuff');
+        $isOrderAndReturn = (int)$this->request->param('is_order_and_return');
+        if(!in_array($isAllowPush, [0,1]) || !in_array($isNewStuff, [0,1]) || !in_array($isOrderAndReturn, [0,1])){
+            $this->error(__('Invalid parameters'));
+        }
+
+        $user = \app\common\model\User::find($this->auth->id);
+        $user->is_allow_push = $isAllowPush;
+        $user->is_new_stuff = $isNewStuff;
+        $user->is_order_and_return = $isOrderAndReturn;
+        if($user->save() === false){
+            $this->error(__('Operation failed'));
+        }
+        $this->success('success');
+    }
+
+    /**
+     * 会员手册
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function handbook()
+    {
+        $info = Handbook::field('content')->find(1);
+        if($info === false) $this->error(__('Operation failed'));
+        $this->success('success', $info);
     }
 
 }

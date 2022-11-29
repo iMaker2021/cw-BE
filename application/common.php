@@ -524,10 +524,7 @@ EOT;
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
-            curl_setopt(
-                $ch, CURLOPT_HTTPHEADER,
-                $header
-            );
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json' , $header ));
 
             $data = curl_exec($ch);
             curl_close($ch);
