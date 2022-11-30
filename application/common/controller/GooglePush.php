@@ -17,18 +17,20 @@ class GooglePush
      * @param array $users
      * @return bool|string
      */
-    public function push(string $title, string $msg, array $users) {
+    public function push(string $title, string $msg, array $users, string $url = '/') {
         //发送push接口，project_id需要替换成自己项目的id
         $send_url = 'https://fcm.googleapis.com/v1/projects/'.config('google_push.project_id').'/messages:send';
         //推送参数
         $params = [
             "message" => [
-                "token" => implode(',', $users), //需要发送的设备号
+                "tokens" => $users, //需要发送的设备号
                 "notification" => [
                     "title" => $title,
                     "body" => $msg
-                ]//,
-                //"data" => ''
+                ],
+                "data" => [
+                    'url' => $url
+                ]
             ]
         ];
 
