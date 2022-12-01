@@ -14,8 +14,8 @@ class ComposerStaticInit73f9e72fede2c36621e52f7b610bbb65
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         'd767e4fc2dc52fe66584ab8c6684783e' => __DIR__ . '/..' . '/adbario/php-dot-notation/src/helpers.php',
@@ -175,6 +175,7 @@ class ComposerStaticInit73f9e72fede2c36621e52f7b610bbb65
         ),
         'E' => 
         array (
+            'ExpoSDK\\' => 8,
             'Endroid\\QrCode\\' => 15,
             'EasyWeChat\\' => 11,
             'EasyWeChatComposer\\' => 19,
@@ -389,6 +390,10 @@ class ComposerStaticInit73f9e72fede2c36621e52f7b610bbb65
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'ExpoSDK\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ctwillie/expo-server-sdk-php/src',
         ),
         'Endroid\\QrCode\\' => 
         array (

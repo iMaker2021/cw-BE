@@ -34,7 +34,8 @@
         "endroid/qr-code": "^4.3",
         "stripe/stripe-php": "^9.8",
         "alibabacloud/sdk": "^1.8",
-        "google/apiclient": "^2.12"
+        "google/apiclient": "^2.12",
+        "ctwillie/expo-server-sdk-php": "^2.0"
     },
     "config": {
         "preferred-install": "dist",

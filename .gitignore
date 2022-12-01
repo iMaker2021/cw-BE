@@ -3,6 +3,8 @@
 /application/admin/command/Install/*.lock
 /application/database.php
 .idea
+.gitignore
+.idea/workspace.xml
 composer.lock
 *.log
 *.css.map

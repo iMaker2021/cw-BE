@@ -3,7 +3,7 @@
         'name' => 'karsonzhang/fastadmin',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'f57c603c8b8c3768e98bcb2430e2bb7098351c8b',
+        'reference' => '4fc2bc31551fb607f4d38f5368b3e497ea69702f',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -1063,6 +1063,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'ctwillie/expo-server-sdk-php' => array(
+            'pretty_version' => 'v2.0',
+            'version' => '2.0.0.0',
+            'reference' => '040f5d0709779b006c1f2838d175e5447444518a',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../ctwillie/expo-server-sdk-php',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'danielstjules/stringy' => array(
             'pretty_version' => '3.1.0',
             'version' => '3.1.0.0',
@@ -1165,7 +1174,7 @@
         'karsonzhang/fastadmin' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'f57c603c8b8c3768e98bcb2430e2bb7098351c8b',
+            'reference' => '4fc2bc31551fb607f4d38f5368b3e497ea69702f',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
