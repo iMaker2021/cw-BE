@@ -262,14 +262,14 @@ class Common extends Api
     public function test_push()
     {
         $push = new GooglePush();
-        $result = $push->push('推送测试', '这是一个测试推送消息', ['123123123']);
+        $result = $push->push('推送测试', '这是一个测试推送消息', ['5epKzdBnJOCY50NalR5_1d']);
         dump($result);
     }
 
     public function test_expo_push()
     {
         $push = new ExpoGooglePush();
-        $result = $push->push('expo推送测试', '这是一个测试expo推送消息', ['123123123']);
+        $result = $push->push('expo推送测试', '这是一个测试expo推送消息', ['5epKzdBnJOCY50NalR5_1d']);
         dump($result);
     }
 }
