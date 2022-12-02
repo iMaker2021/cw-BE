@@ -3,6 +3,11 @@
 namespace app\admin\controller\auction;
 
 use app\common\controller\Backend;
+use app\common\controller\ExpoGooglePush;
+use think\Db;
+use think\Exception;
+use think\exception\PDOException;
+use think\exception\ValidateException;
 
 /**
  * 拍卖商品成交订单管理
@@ -67,6 +72,55 @@ class Order extends Backend
             return json($result);
         }
         return $this->view->fetch();
+    }
+
+
+    public function edit($ids = null)
+    {
+        $row = $this->model->get($ids);
+        if (!$row) {
+            $this->error(__('No Results were found'));
+        }
+        $adminIds = $this->getDataLimitAdminIds();
+        if (is_array($adminIds) && !in_array($row[$this->dataLimitField], $adminIds)) {
+            $this->error(__('You have no permission'));
+        }
+        if (false === $this->request->isPost()) {
+            $this->view->assign('row', $row);
+            return $this->view->fetch();
+        }
+        $params = $this->request->post('row/a');
+        if (empty($params)) {
+            $this->error(__('Parameter %s can not be empty', ''));
+        }
+        $params = $this->preExcludeFields($params);
+        $result = false;
+        Db::startTrans();
+        try {
+            //是否采用模型验证
+            if ($this->modelValidate) {
+                $name = str_replace("\\model\\", "\\validate\\", get_class($this->model));
+                $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : $name) : $this->modelValidate;
+                $row->validateFailException()->validate($validate);
+            }
+            $result = $row->allowField(true)->save($params);
+            if(!empty($params['express_no'])){
+                //发送谷歌推送通知
+                $user = \app\common\model\User::find($row->user_id);
+                if($user->is_allow_push && $user->is_order_and_return && $user->expo_token){
+                    $push = new ExpoGooglePush();
+                    $push->push('訂單已發貨通知', '您的訂單已發貨，物流單號為: '.$params['express_no'], [$user->expo_token]);
+                }
+            }
+            Db::commit();
+        } catch (ValidateException|PDOException|Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+        if (false === $result) {
+            $this->error(__('No rows were updated'));
+        }
+        $this->success();
     }
 
 }

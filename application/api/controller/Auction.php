@@ -5,6 +5,7 @@ namespace app\api\controller;
 use app\common\controller\Api;
 use app\admin\model\Category;
 use app\admin\model\auction\Goods;
+use app\common\controller\ExpoGooglePush;
 use app\common\model\GoodsPriceLog;
 use app\common\model\Message;
 use think\Db;
@@ -197,7 +198,7 @@ class Auction extends Api
             }
             //拍卖价格更新通知其他参与拍卖人员
             $msgIds = GoodsPriceLog::where('goods_id', $goods->id)->where('user_id', '<>', $this->auth->id)->column('user_id');
-            $msgData =[];
+            $msgData = [];
             foreach ($msgIds as $id){
                 $msgData[] = [
                     'user_id' => $id,
@@ -208,7 +209,12 @@ class Auction extends Api
                 $msgModel = new Message();
                 $msgModel->saveAll($msgData);
             }
-
+            //发送谷歌推送通知
+            $userTokens = \app\common\model\User::whereIn('id', $msgIds)->where('expo_token', '<>', '')->where('is_allow_push', '=', 1)->where('is_order_and_return', '=', 1)->column('expo_token');
+            if(!empty($userTokens)){
+                $push = new ExpoGooglePush();
+                $push->push('拍賣價格更新通知', $msgData[0]['content'], $userTokens);
+            }
             //冻结竞拍最高价用户积分
             \app\common\model\User::lockScore($price, $this->auth->id);
             //如果有前最高价解冻前最高价用户积分
@@ -255,12 +261,18 @@ class Auction extends Api
         if(count($params['images']) > 5) $this->error(__('Upload no more than 5 images'));
         if(!isset($params['begin_time']) || empty($params['begin_time'])) $this->error(__('Begin_time can not empty'));
         if(!isset($params['end_time']) || empty($params['end_time'])) $this->error(__('End_time can not empty'));
-        if(time() > strtotime($params['end_time']))  $this->error(__('The end time cannot be less than the current time'));
+        if(time() > strtotime($params['end_time'])) $this->error(__('The end time cannot be less than the current time'));
         if(strtotime($params['begin_time']) >= strtotime($params['end_time']))  $this->error(__('The end time cannot be less than the begin time'));
         $params['now_price'] = $params['start_price'];
         $params['user_id'] = $this->auth->id;
         $params['images'] = implode(',', $params['images']);
         $result = model('app\admin\model\auction\Goods')->allowField(true)->save($params);
+        //发送谷歌推送通知
+        $userTokens = \app\common\model\User::where('id', '<>', $this->auth->id)->where('expo_token', '<>', '')->where('is_allow_push', '=', 1)->where('is_new_stuff', '=', 1)->column('expo_token');
+        if(!empty($userTokens)){
+            $push = new ExpoGooglePush();
+            $push->push('新拍賣品發布通知', '新拍賣品 '.$params['title'].' 已發布,快來參悟競價吧', $userTokens);
+        }
         if ($result === false) {
             $this->error(__('Publishing failed'));
         }

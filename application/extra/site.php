@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'name' => '爱德生堂拍卖',
+  'name' => '愛德生拍賣堂',
   'beian' => '',
   'cdnurl' => '',
   'version' => '1.0.1',

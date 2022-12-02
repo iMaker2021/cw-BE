@@ -4,6 +4,7 @@ namespace app\admin\controller\auction;
 
 use app\admin\model\auction\GoodsPriceLog;
 use app\common\controller\Backend;
+use app\common\controller\ExpoGooglePush;
 use think\Db;
 use think\Exception;
 use think\exception\PDOException;
@@ -109,6 +110,12 @@ class Goods extends Backend
             $params['now_price'] = $params['start_price'];
             $result = $this->model->allowField(true)->save($params);
             Db::commit();
+            //发送谷歌推送通知
+            $userTokens = \app\common\model\User::where('expo_token', '<>', '')->where('is_allow_push', '=', 1)->where('is_new_stuff', '=', 1)->column('expo_token');
+            if(!empty($userTokens)){
+                $push = new ExpoGooglePush();
+                $push->push('新拍賣品發布通知', '新拍賣品 '.$params['title'].' 已發布,快來參悟競價吧', $userTokens);
+            }
         } catch (ValidateException|PDOException|Exception $e) {
             Db::rollback();
             $this->error($e->getMessage());

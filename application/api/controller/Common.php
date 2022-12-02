@@ -192,6 +192,11 @@ class Common extends Api
             //充值成功發送推薦獎勵
             if($user->spread_uid){
                 $userModel::score(bcdiv($recharge->money, 10, 2), $user->spread_uid, '推薦充值獎勵');
+                //发送谷歌推送通知
+                if($user->is_allow_push && $user->is_order_and_return && $user->verification){
+                    $push = new ExpoGooglePush();
+                    $push->push('推薦充值獎勵通知', '推薦充值獎勵'.bcdiv($recharge->money, 10, 2).'積分', [$user->verification]);
+                }
             }
             Db::commit();
             return true;
@@ -245,6 +250,12 @@ class Common extends Api
                         'content' => '拍賣品 '.$val->title.' 您已競拍成功'
                     ];
                     Message::create($msgData);
+                    //发送谷歌推送通知
+                    $user = \app\common\model\User::find($priceLog->user_id);
+                    if($user->is_allow_push && $user->is_order_and_return && $user->verification){
+                        $push = new ExpoGooglePush();
+                        $push->push('競拍成功通知', $msgData['content'], [$user->verification]);
+                    }
                     //更新商品信息为已生成订单
                     $result = Goods::where('id', $val->id)->update(['is_order' => 1]);
                     if(!$result) Log::notice('更新状态失败，商品id->'.$val->id);
@@ -257,7 +268,6 @@ class Common extends Api
             }
         }
     }
-
 
     public function test_push()
     {

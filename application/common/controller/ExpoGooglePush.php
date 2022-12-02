@@ -10,6 +10,7 @@ namespace app\common\controller;
 
 use ExpoSDK\Expo;
 use ExpoSDK\ExpoMessage;
+use think\Log;
 
 class ExpoGooglePush
 {
@@ -20,15 +21,12 @@ class ExpoGooglePush
      * @param array $users
      * @return bool|string
      */
-    public function push(string $title, string $msg, array $users) {
+    public function push(string $title, string $msg, array $usersToken) {
 
-        foreach ($users as $val){
-            $defaultRecipients[] = 'ExponentPushToken['.$val.']';
-        }
         $messages = [
             [
                 'title' => '愛德生拍賣黨',
-                'to' => $defaultRecipients,
+                'to' => $usersToken,
             ],
             new ExpoMessage([
                 'title' => $title,
@@ -41,8 +39,8 @@ class ExpoGooglePush
          */
         //$defaultRecipients = $pushTokens;
 
-        $result = (new Expo())->send($messages)->to($defaultRecipients)->push();
-        return $result;
+        $result = (new Expo())->send($messages)->to($usersToken)->push();
+       return $result;
     }
 
 }

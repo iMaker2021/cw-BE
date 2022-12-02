@@ -6,6 +6,7 @@ use app\admin\model\auction\Goods;
 use app\admin\model\auction\Order;
 use app\admin\model\Handbook;
 use app\common\controller\Api;
+use app\common\controller\ExpoGooglePush;
 use app\common\library\Ems;
 use app\common\library\Sms;
 use app\common\model\GoodsPriceLog;
@@ -734,6 +735,12 @@ class User extends Api
         $order->status = $status;
         $order->express_no = $expressNo;
         $result = $order->isUpdate(true)->save();
+        //发送谷歌推送通知
+        $user = \app\common\model\User::find($order->user_id);
+        if($user->is_allow_push && $user->is_order_and_return && $user->expo_token && $expressNo){
+            $push = new ExpoGooglePush();
+            $push->push('訂單已發貨通知', '您的訂單已發貨，物流單號為: '.$expressNo, [$user->expo_token]);
+        }
         if($result === false){
             $this->error(__('Operation failed'));
         }
