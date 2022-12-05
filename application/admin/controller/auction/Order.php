@@ -104,14 +104,6 @@ class Order extends Backend
                 $row->validateFailException()->validate($validate);
             }
             $result = $row->allowField(true)->save($params);
-            if(!empty($params['express_no'])){
-                //发送谷歌推送通知
-                $user = \app\common\model\User::find($row->user_id);
-                if($user->is_allow_push && $user->is_order_and_return && $user->expo_token){
-                    $push = new ExpoGooglePush();
-                    $push->push('訂單已發貨通知', '您的訂單已發貨，物流單號為: '.$params['express_no'], [$user->expo_token]);
-                }
-            }
             Db::commit();
         } catch (ValidateException|PDOException|Exception $e) {
             Db::rollback();
@@ -119,6 +111,14 @@ class Order extends Backend
         }
         if (false === $result) {
             $this->error(__('No rows were updated'));
+        }
+        if(!empty($params['express_no'])){
+            //发送谷歌推送通知
+            $user = \app\common\model\User::find($row->user_id);
+            if($user->is_allow_push && $user->is_order_and_return && $user->expo_token){
+                $push = new ExpoGooglePush();
+                $push->push('訂單已發貨通知', '您的訂單已發貨，物流單號為: '.$params['express_no'], [$user->expo_token]);
+            }
         }
         $this->success();
     }

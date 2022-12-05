@@ -250,16 +250,16 @@ class Common extends Api
                         'content' => '拍賣品 '.$val->title.' 您已競拍成功'
                     ];
                     Message::create($msgData);
+                    //更新商品信息为已生成订单
+                    $result = Goods::where('id', $val->id)->update(['is_order' => 1]);
+                    if(!$result) Log::notice('更新状态失败，商品id->'.$val->id);
+                    Db::commit();
                     //发送谷歌推送通知
                     $user = \app\common\model\User::find($priceLog->user_id);
                     if($user->is_allow_push && $user->is_order_and_return && $user->verification){
                         $push = new ExpoGooglePush();
                         $push->push('競拍成功通知', $msgData['content'], [$user->verification]);
                     }
-                    //更新商品信息为已生成订单
-                    $result = Goods::where('id', $val->id)->update(['is_order' => 1]);
-                    if(!$result) Log::notice('更新状态失败，商品id->'.$val->id);
-                    Db::commit();
                     Log::notice('订单生成成功，商品id->'.$val->id);
                 }catch (Exception $exception){
                     Db::rollback();

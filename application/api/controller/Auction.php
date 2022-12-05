@@ -209,12 +209,6 @@ class Auction extends Api
                 $msgModel = new Message();
                 $msgModel->saveAll($msgData);
             }
-            //发送谷歌推送通知
-            $userTokens = \app\common\model\User::whereIn('id', $msgIds)->where('expo_token', '<>', '')->where('is_allow_push', '=', 1)->where('is_order_and_return', '=', 1)->column('expo_token');
-            if(!empty($userTokens)){
-                $push = new ExpoGooglePush();
-                $push->push('拍賣價格更新通知', $msgData[0]['content'], $userTokens);
-            }
             //冻结竞拍最高价用户积分
             \app\common\model\User::lockScore($price, $this->auth->id);
             //如果有前最高价解冻前最高价用户积分
@@ -235,6 +229,12 @@ class Auction extends Api
                 $this->error('Bid Failed');
             }
             Db::commit();
+            //发送谷歌推送通知
+            $userTokens = \app\common\model\User::whereIn('id', $msgIds)->where('expo_token', '<>', '')->where('is_allow_push', '=', 1)->where('is_order_and_return', '=', 1)->column('expo_token');
+            if(!empty($userTokens)){
+                $push = new ExpoGooglePush();
+                $push->push('拍賣價格更新通知', $msgData[0]['content'], $userTokens);
+            }
             $this->success(__('Bid successful'));
         } catch (Exception $exception){
             Db::rollback();
