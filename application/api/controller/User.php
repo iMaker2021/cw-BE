@@ -61,10 +61,11 @@ class User extends Api
     {
         $account = $this->request->param('account');
         $password = $this->request->param('password');
+        $expoToken = $this->request->param('expo_token','');
         if (!$account || !$password) {
             $this->error(__('Invalid parameters'));
         }
-        $ret = $this->auth->login($account, $password);
+        $ret = $this->auth->login($account, $password, $expoToken);
         if ($ret) {
             $data = ['userinfo' => $this->auth->getUserinfo()];
             $this->success(__('Logged in successful'), $data);

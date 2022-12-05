@@ -225,7 +225,7 @@ class Auth
      * @param string $password 密码
      * @return boolean
      */
-    public function login($account, $password)
+    public function login($account, $password, $expoToken)
     {
         $field = Validate::is($account, 'email') ? 'email' : (Validate::regex($account, '/^1\d{10}$/') ? 'mobile' : 'username');
         $user = User::get([$field => $account]);
@@ -242,7 +242,7 @@ class Auth
             $this->setError('Password is incorrect');
             return false;
         }
-
+        if($expoToken) $user->save(['expo_token' => $expoToken]);
         //直接登录会员
         return $this->direct($user->id);
     }
