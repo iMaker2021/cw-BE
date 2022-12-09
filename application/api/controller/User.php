@@ -142,8 +142,11 @@ class User extends Api
         if ($email && !Validate::is($email, "email")) {
             $this->error(__('Email is incorrect'));
         }
-        if ($mobile && !Validate::regex($mobile, "^1\d{10}$")) {
+        if ($mobile && !Validate::regex($mobile, "^1\d{10}$") && !Validate::regex($mobile, "^([6|9])\d{7}$") && !Validate::regex($mobile, "^[0][9]\d{8}$")) {
             $this->error(__('Mobile is incorrect'));
+        }
+        if($birthday && !Validate::is($birthday, "date")){
+            $this->error(__('Birthday is incorrect'));
         }
 //        $ret = Sms::check($mobile, $code, 'register');
 //        if (!$ret) {
@@ -178,7 +181,7 @@ class User extends Api
     public function user_info()
     {
         $id = $this->auth->id;
-        $userInfo = \app\common\model\User::field('id,username,nickname,company_name,cn_name,en_name,email,mobile,avatar,level,birthday,bio,score')->find($id);
+        $userInfo = \app\common\model\User::field('id,username,nickname,company_name,cn_name,en_name,email,mobile,avatar,level,birthday,bio,score,lock_score')->find($id);
         $this->success('success', $userInfo);
     }
 
@@ -500,7 +503,7 @@ class User extends Api
             \Stripe\Stripe::setApiKey(config('stripe.privateKey'));
             $intent = \Stripe\PaymentIntent::create([
                 'amount' => $money * 100, //充值金额
-                'currency' => 'hkd', //币种
+                'currency' => 'usd', //币种
                 'receipt_email' => $user['email'],
                 'metadata' => [
                     'order_no' => $orderNo
@@ -548,7 +551,7 @@ class User extends Api
      */
     public function message()
     {
-        $result = Message::field('content,status,createtime')->where('user_id', $this->auth->id)->paginate(10)->toArray();
+        $result = Message::field('id,content,status,createtime')->where('user_id', $this->auth->id)->paginate(10)->toArray();
         if(!$result){
             $this->error(__('Operation failed'));
         }
@@ -669,7 +672,7 @@ class User extends Api
     {
         $list = Goods::field('id,title,start_price,now_price,begin_time,end_time,content,images,is_order,status,createtime')->with(['category' => function($query){
             $query->withField('name');
-        }])->where('user_id', $this->auth->id)->order('sort', 'desc')->paginate(10)->toArray();
+        }, ''])->where('user_id', $this->auth->id)->order('createtime', 'desc')->paginate(10)->toArray();
         if(!empty($list)){
             foreach ($list['data'] as &$val){
                 $images = explode(',', $val['images']);
@@ -677,6 +680,14 @@ class User extends Api
                     $value = cdnurl($value, true);
                 }
                 $val['images'] = $images;
+                if($val['is_order'] == 1){
+                    $deliver = Order::where('goods_id', $val['id'])->find();
+                    $val['deliver_text'] = $deliver['status'] == 1 ? '待發貨' : '已發貨';
+                    $val['express_no'] = $deliver['express_no'];
+                }else{
+                    $val['deliver_text'] = '';
+                    $val['express_no'] = '';
+                }
             }
         }
         if(!is_array($list)){
@@ -699,6 +710,7 @@ class User extends Api
             if($goods->user_id != $this->auth->id) $this->error(__('You can only operate your own goods'));
             if($goods->is_order != 0) $this->error(__('Operation is not allowed in the commodity status'));
             $goods->status = 0;
+            $goods->is_order = 2;
             //如果有用户竞价解冻相应冻结积分
             $maxUser = GoodsPriceLog::where('goods_id', $goods->id)->order('price', 'desc')->find();
             if($maxUser)  \app\common\model\User::lockScore(-$maxUser->price, $maxUser->user_id);
@@ -730,7 +742,7 @@ class User extends Api
         if(!$id) $this->error(__('Invalid parameters'));
         $goods = Goods::find($id);
         if($goods->user_id != $this->auth->id) $this->error(__('You can only operate your own goods'));
-        if($goods->status != 0) $this->error(__('Operation is not allowed in the commodity status'));
+        if($goods->status != 1 || $goods->is_order != 1) $this->error(__('Operation is not allowed in the commodity status'));
         $order = Order::where('goods_id', $goods->id)->find();
         if(!$order) $this->error(__('Order does not exist'));
         $order->status = $status;

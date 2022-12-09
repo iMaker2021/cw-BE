@@ -17,6 +17,7 @@ return [
     'Mobile already exist'                  => '手機號已經存在',//手机号已经存在
     'Username is incorrect'                 => '用戶名不正確',//用户名不正确
     'Email is incorrect'                    => '郵箱不正確',//邮箱不正确
+    'Birthday is incorrect'                 => '生日格式不正確',//生日不正确
     'Account is locked'                     => '賬戶已經被鎖定',//账户已经被锁定
     'Password is incorrect'                 => '密碼不正確',//密码不正确
     'Account is incorrect'                  => '賬戶不正確',//账户不正确

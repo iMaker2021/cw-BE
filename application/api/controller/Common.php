@@ -193,9 +193,9 @@ class Common extends Api
             if($user->spread_uid){
                 $userModel::score(bcdiv($recharge->money, 10, 2), $user->spread_uid, '推薦充值獎勵');
                 //发送谷歌推送通知
-                if($user->is_allow_push && $user->is_order_and_return && $user->verification){
+                if($user->is_allow_push && $user->is_order_and_return && $user->expo_token){
                     $push = new ExpoGooglePush();
-                    $push->push('推薦充值獎勵通知', '推薦充值獎勵'.bcdiv($recharge->money, 10, 2).'積分', [$user->verification]);
+                    $push->push('推薦充值獎勵通知', '推薦充值獎勵'.bcdiv($recharge->money, 10, 2).'積分', [$user->expo_token]);
                 }
             }
             Db::commit();
@@ -220,6 +220,7 @@ class Common extends Api
                     //无人出价更新记录为流拍继续下一个商品
                     if(!$priceLog){
                         Goods::where('id', $val->id)->update(['is_order' => 2]);
+                        Db::commit();
                         continue;
                     }
 
@@ -250,15 +251,22 @@ class Common extends Api
                         'content' => '拍賣品 '.$val->title.' 您已競拍成功'
                     ];
                     Message::create($msgData);
+                    Message::create(['user_id' => $val->user_id, 'content' => '您的拍賣品 '.$val->title.' 已成交']);
                     //更新商品信息为已生成订单
                     $result = Goods::where('id', $val->id)->update(['is_order' => 1]);
                     if(!$result) Log::notice('更新状态失败，商品id->'.$val->id);
                     Db::commit();
-                    //发送谷歌推送通知
-                    $user = \app\common\model\User::find($priceLog->user_id);
-                    if($user->is_allow_push && $user->is_order_and_return && $user->verification){
+                    //给买家发送谷歌推送通知
+                    $userBuy = \app\common\model\User::find($priceLog->user_id);
+                    if($userBuy->is_allow_push && $userBuy->is_order_and_return && $userBuy->expo_token){
                         $push = new ExpoGooglePush();
-                        $push->push('競拍成功通知', $msgData['content'], [$user->verification]);
+                        $push->push('競拍成功通知', $msgData['content'], [$userBuy->expo_token]);
+                    }
+                    //给卖家发送谷歌推送通知
+                    $userSell = \app\common\model\User::find($val->user_id);
+                    if($userSell->is_allow_push && $userSell->is_order_and_return && $userSell->expo_token){
+                        $push = new ExpoGooglePush();
+                        $push->push('競拍成功通知', '您的拍賣品 '.$val->title.' 已成交', [$userSell->expo_token]);
                     }
                     Log::notice('订单生成成功，商品id->'.$val->id);
                 }catch (Exception $exception){
@@ -279,7 +287,7 @@ class Common extends Api
     public function test_expo_push()
     {
         $push = new ExpoGooglePush();
-        $result = $push->push('expo推送测试', '这是一个测试expo推送消息', ['5epKzdBnJOCY50NalR5_1d']);
+        $result = $push->push('expo推送测试', '这是一个测试expo推送消息', ['ExponentPushToken[oMCFsWOulGU2-zqZW0fpMF]']);
         dump($result);
     }
 }

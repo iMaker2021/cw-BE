@@ -29,7 +29,7 @@ class Order extends Model
     public function getStatusTextAttr($value, $data)
     {
         $value = $value ? $value : (isset($data['is_order']) ? $data['is_order'] : '');
-        return (int)$value == 1 ? '待发货' : '已发货';
+        return (int)$value == 1 ? '待發貨' : '已發貨';
     }
 
     public function goods()

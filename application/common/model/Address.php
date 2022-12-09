@@ -29,7 +29,7 @@ class Address Extends Model
     public function getIsDefaultTextAttr($value, $data)
     {
         $value = $value ? $value : (isset($data['is_default']) ? $data['is_default'] : '');
-        return $value === '' ? '' : ((int)$value ? '默认' : '非默认');
+        return $value === '' ? '' : ((int)$value ? '默認' : '非默認');
     }
 
     public function user(){

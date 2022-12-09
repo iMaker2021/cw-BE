@@ -28,4 +28,5 @@ return [
     "The end time cannot be less than the current time" => '結束時間不能小於當前時間',//结束时间不能小于当前时间
     "The end time cannot be less than the begin time" => '結束時間不能小於開始時間',//结束时间不能小于开始时间
     "You are already the highest price" => '您已是最高價',//您已是最高价
+    "Can't auction your own goods" => '不能拍自己的商品',
 ];

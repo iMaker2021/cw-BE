@@ -83,7 +83,7 @@ class Auction extends Api
             default:
                 $order = 'sort desc';
         }
-        $list = Goods::field(['id','title','images','category_id', 'start_price', 'begin_time', 'end_time'])->where($where)->order($order)->paginate(10)->toArray();
+        $list = Goods::field(['id','title','images','category_id', 'start_price', 'now_price', 'begin_time', 'end_time'])->where($where)->order($order)->order('id', 'desc')->paginate(10)->toArray();
         foreach ($list['data'] as &$value){
             if($value['images']){
                 $images = explode(',', $value['images']);
@@ -111,11 +111,11 @@ class Auction extends Api
     public function detail()
     {
         $id = $this->request->get('id', 0);
-        if(!$id) $this->error('参数错误');
+        if(!$id) $this->error(__('Invalid parameters'));
         $detail = Goods::with(['price_log' => function($query){
             $query->field('id,price,goods_id,user_id,createtime')->with(['user'])->order('price desc');
         }])->field(['id','title','images', 'category_id', 'content', 'start_price', 'begin_time', 'end_time'])->find($id);
-        if(!$detail) $this->error('商品不存在');
+        if(!$detail) $this->error(__('Goods id does not exist'));
         if($detail['images']){
             $images = explode(',', $detail['images']);
             foreach ($images as &$val){
@@ -123,10 +123,10 @@ class Auction extends Api
             }
             $detail['images'] = $images;
         }
-        $detail['price_log'] = GoodsPriceLog::field('id,user_id,price,createtime')->with(['user'])->select();
+        $detail['price_log'] = GoodsPriceLog::field('id,user_id,price,createtime')->order('price', 'desc')->where('goods_id', $id)->with(['user'])->limit(0, 5)->select();
         $where['status'] = 1;
         $where['category_id'] = $detail['category_id'];
-        $data = Goods::field(['id','title','images', 'start_price', 'begin_time', 'end_time'])->where($where)->where('end_time', '>', time())->order('id desc')->limit(0,2)->select();
+        $data = Goods::field(['id','title','images', 'start_price', 'now_price', 'begin_time', 'end_time'])->where($where)->where('end_time', '>', time())->order('id desc')->limit(0,2)->select();
         if($data){
             foreach ($data as &$value){
                 if($value['images']){
@@ -182,6 +182,10 @@ class Auction extends Api
                 Db::rollback();
                 $this->error(__('The price must be greater than the current price'));
             }
+            if($goods['user_id'] == $this->auth->id){
+                Db::rollback();
+                $this->error(__("Can't auction your own goods"));
+            }
             if(strrpos(($price - $goods['now_price']), '.') !== false){
                 Db::rollback();
                 $this->error(__('Markup range must be an integer'));
@@ -205,6 +209,11 @@ class Auction extends Api
                     'content' => '您參與的拍賣品 '.$goods->title.'競拍最新價格為 '.$price
                 ];
             }
+            //给卖家发送消息
+            $msgData[] = [
+                'user_id' => $goods['user_id'],
+                'content' => '您的拍賣品 '.$goods->title.'競拍最新價格為 '.$price
+            ];
             if($msgData) {
                 $msgModel = new Message();
                 $msgModel->saveAll($msgData);
@@ -234,6 +243,12 @@ class Auction extends Api
             if(!empty($userTokens)){
                 $push = new ExpoGooglePush();
                 $push->push('拍賣價格更新通知', $msgData[0]['content'], $userTokens);
+            }
+            //给卖家发送谷歌推送通知
+            $sellerToken = \app\common\model\User::where('id', $goods['user_id'])->where('expo_token', '<>', '')->where('is_allow_push', '=', 1)->where('is_order_and_return', '=', 1)->value('expo_token');
+            if(!empty($sellerToken)){
+                $push = new ExpoGooglePush();
+                $push->push('拍賣價格更新通知', '您的拍賣品 '.$goods->title.'競拍最新價格為 '.$price, [$sellerToken]);
             }
             $this->success(__('Bid successful'));
         } catch (Exception $exception){

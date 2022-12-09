@@ -25,7 +25,7 @@ class Goods extends Model
 
     protected $dateFormat = 'Y-m-d H:i:s';
 
-    private $isOrderText = ['进行中', '已成交', '流拍'];
+    private $isOrderText = ['進行中', '已成交', '流拍'];
 
     // 追加属性
     protected $append = [
@@ -57,7 +57,7 @@ class Goods extends Model
     public function getStatusTextAttr($value, $data)
     {
         $value = $value ? $value : (isset($data['status']) ? $data['status'] : '');
-        return $value === '' ? '' : ((int)$value ? '正常' : '已作废');
+        return $value === '' ? '' : ((int)$value ? '正常' : '已作廢');
     }
 
 
