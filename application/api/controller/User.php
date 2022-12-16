@@ -142,7 +142,7 @@ class User extends Api
         if ($email && !Validate::is($email, "email")) {
             $this->error(__('Email is incorrect'));
         }
-        if ($mobile && !Validate::regex($mobile, "^1\d{10}$") && !Validate::regex($mobile, "^([6|9])\d{7}$") && !Validate::regex($mobile, "^[0][9]\d{8}$")) {
+        if ($mobile && !Validate::regex($mobile, "^[1][3-8]\d{9}$|^([6|9])\d{7}$|^[0][9]\d{8}$|^[6]([8|6])\d{5}$") && !Validate::regex($mobile, "^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$")) {
             $this->error(__('Mobile is incorrect'));
         }
         if($birthday && !Validate::is($birthday, "date")){
@@ -512,7 +512,8 @@ class User extends Api
             $data = [
                 'order_no' => $orderNo,
                 'user_id'  => $this->auth->id,
-                'money'  => $money
+                'money'  => $money,
+                'currency'  => 'usd'
             ];
             $result = RechargeOrder::create($data);
             if(!$result){
@@ -538,7 +539,7 @@ class User extends Api
             $where['score'] = [$type == 1 ? '>' : '<', 0];
         }
 
-        $result = ScoreLog::where($where)->paginate(10)->toArray();
+        $result = ScoreLog::where($where)->order('id', 'desc')->paginate(10)->toArray();
         if(!$result){
             $this->error(__('Operation failed'));
         }
