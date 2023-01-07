@@ -57,7 +57,7 @@ class Goods extends Model
     public function getStatusTextAttr($value, $data)
     {
         $value = $value ? $value : (isset($data['status']) ? $data['status'] : '');
-        return $value === '' ? '' : ((int)$value ? '正常' : '已作廢');
+        return $value === '' ? '' : ((int)$value ? '上架中' : '下架中');
     }
 
 
